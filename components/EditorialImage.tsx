@@ -1,5 +1,5 @@
 type EditorialImageProps = {
-  name: "hero-rabbit-alice" | "antique-key" | "final-door" | "registration-rabbit";
+  name: "hero-rabbit-alice" | "antique-key" | "final-door" | "registration-rabbit" | "alice-threshold";
   alt?: string;
   width: number;
   height: number;

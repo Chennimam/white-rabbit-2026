@@ -1,3 +1,4 @@
+import { EditorialImage } from "./EditorialImage";
 import { Reveal } from "./Reveal";
 import { CTA, DatesList } from "./Shared";
 export function Dates() {
@@ -6,7 +7,16 @@ export function Dates() {
       className="dates-section section shell"
       aria-labelledby="dates-title"
     >
-      <Reveal>
+      <div className="dates-layout">
+      <Reveal className="dates-art">
+        <EditorialImage
+          name="alice-threshold"
+          alt="Алиса с ключом останавливается у старинного порога и смотрит на путь за дверью"
+          width={960}
+          height={1440}
+        />
+      </Reveal>
+      <Reveal className="dates-copy">
         <span className="tiny-star" aria-hidden="true">
           ✧
         </span>
@@ -22,6 +32,7 @@ export function Dates() {
           Онлайн
         </p>
       </Reveal>
+      </div>
     </section>
   );
 }
