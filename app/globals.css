@@ -899,18 +899,7 @@ section[id] {
   position: relative;
   z-index: 1;
 }
-.payment-placeholder:disabled {
-  background: #56604c;
-  border-color: #56604c;
-  color: #f9efdb;
-  cursor: not-allowed;
-}
-.placeholder-note {
-  font-size: 10px;
-  color: #685844;
-  text-align: center;
-  margin-top: 12px;
-}
+
 
 .final-section {
   padding-block: 155px 140px;
@@ -1616,9 +1605,7 @@ section[id] {
     padding-inline: 17px;
     min-height: 58px;
   }
-  .placeholder-note {
-    font-size: 10px;
-  }
+
   .final-section {
     padding-top: 95px;
   }
@@ -1692,3 +1679,19 @@ section[id] {
     transform: none;
   }
 }
+
+/* The provider owns the form and its responsive height. */
+.order-next-step { margin: 16px 0 0; font-size: 12px; line-height: 1.7; color: var(--muted); text-align: center; }
+.order-panel { position: relative; max-width: 800px; margin: 64px auto 0; padding: 48px; color: #372f27; background: #eee5d2 url('/textures/texture-paper.svg'); border: 1px solid #9a7c4d; outline: 1px solid #9a7c4d; outline-offset: -9px; scroll-margin-top: 32px; }
+.order-panel h2 { margin: 20px 0; }
+.order-intro { max-width: 580px; margin-bottom: 24px; line-height: 1.8; color: #6d6050; }
+.getcourse-order { width: 100%; min-width: 0; background: transparent; }
+.getcourse-order iframe { display: block; width: 100%; max-width: 100%; border: 0; background: transparent; }
+.order-status { font-size: 13px; line-height: 1.7; color: #6d6050; }
+@media (max-width: 680px) {
+  .order-panel { margin-top: 40px; padding: 30px 12px; outline-offset: -5px; }
+  .order-panel h2, .order-panel > .section-label, .order-intro, .order-status { margin-left: 8px; margin-right: 8px; }
+}
+
+.order-fallback { margin-top: 24px; font-size: 12px; line-height: 1.7; color: #6d6050; }
+.order-fallback a { text-decoration: underline; text-underline-offset: 3px; }

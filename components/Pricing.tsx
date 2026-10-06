@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { pricing } from "@/data/pricing";
 import { Reveal } from "./Reveal";
 import { SectionLabel, CTA } from "./Shared";
@@ -37,27 +38,29 @@ export function Pricing() {
                   {new Intl.NumberFormat("ru-RU").format(plan.price)}{" "}
                   <span>{plan.currency}</span>
                 </p>
-                {plan.paymentUrl ? (
-                  <CTA href={plan.paymentUrl}>{plan.cta}</CTA>
-                ) : (
-                  <>
-                    <button
-                      className="button payment-placeholder"
-                      disabled
-                      aria-describedby={`payment-${plan.id}`}
-                    >
-                      {plan.cta}
-                      <span aria-hidden="true">↗</span>
-                    </button>
-                    <p className="placeholder-note" id={`payment-${plan.id}`}>
-                      Ссылка на оплату скоро появится
-                    </p>
-                  </>
-                )}
+                <CTA href="#order">{plan.cta}</CTA>
+                <p className="order-next-step">
+                  Далее — выбрать тариф в форме, заполнить данные и перейти к оплате.
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
+        <div className="order-panel" id="order" aria-labelledby="order-title">
+          <SectionLabel number="VII">Ваш билет в мистерию</SectionLabel>
+          <h2 id="order-title">Оформление <em>участия</em></h2>
+          <p className="order-intro">
+            Выберите «Путешественник» или «Исследователь» в форме ниже,
+            заполните свои данные и перейдите к оплате.
+          </p>
+          <p className="order-status" id="order-status" role="status">Загружаем форму оформления участия…</p>
+          <div id="getcourse-order" className="getcourse-order" />
+          <p className="order-fallback">
+            Форма не появилась? <a href="https://tarotroad.getcourse.ru/pl/lite/widget/widget?id=1665193" target="_blank" rel="noopener noreferrer">Откройте её в отдельной вкладке ↗</a>
+          </p>
+          <noscript>Для оформления участия включите JavaScript в браузере.</noscript>
+        </div>
+        <Script src="/getcourse-init.js" strategy="afterInteractive" />
       </div>
     </section>
   );

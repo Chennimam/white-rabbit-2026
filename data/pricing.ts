@@ -5,7 +5,6 @@ export const pricing = [
     title: "Путешественник",
     price: 5500,
     currency: "₽",
-    paymentUrl: "",
     description: "Для тех, кто хочет пройти мистерию вместе с группой.",
     features: [
       "участие в онлайн-мистерии",
@@ -21,7 +20,6 @@ export const pricing = [
     title: "Исследователь",
     price: 8000,
     currency: "₽",
-    paymentUrl: "",
     description:
       "Расширенный формат для тех, кто хочет продолжить работу после мистерии.",
     preface: "Включено всё из формата «Путешественник», а также:",
