@@ -1,0 +1,12 @@
+'use client';
+import { useState } from 'react';
+import { months } from '@/data/siteConfig';
+import { Reveal } from './Reveal';
+import { SectionLabel, Thread } from './Shared';
+function Door({ index }: { index: number }) {
+ const [open, setOpen] = useState(false);
+ const arch = index % 4;
+ const top = arch === 0 ? 'M36 184V69Q36 20 80 20Q124 20 124 69V184Z' : arch === 1 ? 'M36 184V65L80 17L124 65V184Z' : arch === 2 ? 'M36 184V31H124V184Z' : 'M36 184V50Q80 8 124 50V184Z';
+ return <button className={`month-door variant-${arch} ${open ? 'is-open' : ''}`} aria-label={`${months[index]} — ${open ? 'закрыть' : 'приоткрыть'} декоративную дверь`} aria-pressed={open} onClick={() => setOpen(!open)}><svg viewBox="0 0 160 205" aria-hidden="true" fill="none"><g stroke="currentColor" strokeWidth="1"><path className="door-shadow" d={top} /><path d={top} transform="translate(-8 -6) scale(1.1 1.04)" /><path d="M26 186h109M21 191h119M16 197h130M30 177V64M130 177V64" /><g className="door-leaf"><path d={top} /><path d="M80 60v120M43 93h74M43 136h74M44 99h29v31H44zM87 99h29v31H87zM44 143h29v34H44zM87 143h29v34H87z" /><path d={arch === 2 ? 'M46 40h68v44H46zM48 42l64 40M112 42L48 82' : 'M46 84V66Q80 20 114 66V84ZM80 41v42M51 56l29 27 29-27M46 71l34 12 34-12'} /><circle cx="91" cy="119" r="2.5" /><path d="M90 121v5M39 104h5m-5 48h5m72-48h6m-6 48h6" /></g><path d="M8 193q10-8 9-28m-1 17-7-7m8 0 6-10M146 194q-9-10-9-20m3 10 7-7" opacity=".45" /></g></svg><span className="month-caption"><span className="month-number">{String(index + 1).padStart(2, '0')}</span><span>{months[index]}</span></span></button>;
+}
+export function TwelveDoors() { return <section className="doors-section section" id="doors" aria-labelledby="doors-title"><div className="shell"><div className="section-heading"><Reveal><SectionLabel number="III">Коллекция возможностей</SectionLabel><h2 id="doors-title">Двенадцать дверей.<br /><em>Ваш новый год.</em></h2></Reveal><p className="doors-intro">За каждой из них — отдельное пространство будущего месяца: образ, символ, задача, ресурс, возможность, вопрос или неожиданная встреча.</p></div><div className="door-grid">{months.map((month, i) => <Door key={month} index={i} />)}</div><Reveal className="doors-closing"><p>Мы не будем пытаться предсказать год.</p><p className="lead">Мы попробуем его<br /><em>вообразить, почувствовать и сконструировать.</em></p><p>Создавая собственную карту года — не как набор обязательств,<br className="desktop-break" /> а как живое пространство возможностей.</p></Reveal></div><Thread /></section>; }
