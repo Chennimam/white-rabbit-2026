@@ -1,8 +1,7 @@
-// Empty URLs deliberately render as labeled, non-clickable placeholders.
 export const socialLinks = [
-  { label: "Instagram", url: "" },
-  { label: "Telegram", url: "" },
-  { label: "YouTube", url: "" },
-  { label: "Facebook", url: "" },
-  { label: "logos-journey.com", url: "" },
+  { label: "Logos Journey", url: "https://logos-journey.com/" },
+  { label: "Telegram", url: "https://t.me/logojorney" },
+  { label: "YouTube", url: "https://www.youtube.com/@logos.journey" },
+  { label: "Instagram", url: "https://www.instagram.com/logos.journey/" },
+  { label: "Facebook", url: "https://www.facebook.com/maria.ukhanova1" },
 ];

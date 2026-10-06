@@ -15,8 +15,7 @@ export function Dates() {
           <br />
           <em>за Белым Кроликом?</em>
         </h2>
-        <h3 className="eyebrow">Двери открываются</h3>
-        <DatesList />
+        <DatesList atmospheric />
         <p className="online">
           <span aria-hidden="true" />
           Онлайн

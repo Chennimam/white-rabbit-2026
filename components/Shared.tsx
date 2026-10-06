@@ -1,19 +1,10 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { siteConfig } from "@/data/siteConfig";
-export function DatesList({ className = "" }: { className?: string }) {
+export function DatesList({ className = "", atmospheric = false }: { className?: string; atmospheric?: boolean }) {
   return (
-    <div className={`dates-list ${className}`}>
-      {siteConfig.dates.map((date) => (
-        <time key={date.iso} dateTime={date.iso}>
-          {date.label}
-          <span aria-hidden="true"> · </span>
-          {date.time}
-        </time>
-      ))}
-      {siteConfig.timezone && (
-        <span className="timezone">{siteConfig.timezone}</span>
-      )}
-    </div>
+    <p className={`dates-list ${className}`}>
+      {atmospheric && <span>Двери открываются дважды. </span>}
+      <span>Выберите свою дату: <time dateTime="2026-12-20">20 декабря</time> или <time dateTime="2026-12-24">24 декабря</time>{atmospheric ? "." : ""}</span>
+    </p>
   );
 }
 export function CTA({

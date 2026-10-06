@@ -10,8 +10,8 @@
 :root {
   --paper: #eee5d2;
   --pale: #f4eedf;
-  --ink: #372f27;
-  --muted: #6d6050;
+  --ink: #2c251f;
+  --muted: #534737;
   --line: #bca989;
   --red: #75423d;
   --green: #2c3a2e;
@@ -30,7 +30,7 @@ body {
   color: var(--ink);
   background: var(--paper);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.9;
   -webkit-font-smoothing: antialiased;
 }
@@ -108,7 +108,7 @@ section[id] {
 }
 .eyebrow {
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 2.2px;
   line-height: 1.8;
   font-weight: 500;
@@ -121,7 +121,7 @@ section[id] {
   margin-bottom: 35px;
 }
 .section-label > span {
-  font: italic 21px/1 var(--font-display);
+  font: italic 25px/1 var(--font-display);
 }
 .section-label i {
   width: 38px;
@@ -130,14 +130,14 @@ section[id] {
   opacity: 0.8;
 }
 .prose {
-  color: #655747;
+  color: #514331;
   line-height: 1.95;
 }
 .prose p + p {
   margin-top: 22px;
 }
 .lead {
-  font-size: 38px;
+  font-size: 42px;
   line-height: 1.2;
 }
 .button {
@@ -150,7 +150,7 @@ section[id] {
   border: 1px solid var(--green);
   color: #f6ecd8;
   background: var(--green);
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.5;
   box-shadow:
     inset 0 0 0 3px #ffffff08,
@@ -207,14 +207,14 @@ section[id] {
   border-bottom: 1px solid #a28b634d;
 }
 .wordmark {
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 3.3px;
   line-height: 1.6;
 }
 .wordmark span {
   display: block;
   margin-top: 6px;
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: 2px;
   color: var(--muted);
 }
@@ -222,7 +222,7 @@ section[id] {
   display: flex;
   align-items: center;
   gap: 36px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .header nav a {
   padding-block: 11px;
@@ -267,7 +267,7 @@ section[id] {
   margin-top: 10px;
 }
 .hero-subtitle {
-  font: 35px/1.25 var(--font-display);
+  font: 39px/1.25 var(--font-display);
   margin-top: 25px;
 }
 .hero-details {
@@ -282,14 +282,14 @@ section[id] {
   padding-left: 20px;
 }
 .format {
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.3px;
   margin-bottom: 8px;
 }
 .dates-list {
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.9;
   font-variant-numeric: tabular-nums;
 }
@@ -306,7 +306,7 @@ section[id] {
   width: fit-content;
   align-items: center;
   gap: 15px;
-  font-size: 9px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--muted);
@@ -347,16 +347,16 @@ section[id] {
   position: absolute;
   top: -5px;
   right: 30px;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 2px;
-  color: #827055;
+  color: #57442e;
 }
 .art-caption {
   position: absolute;
   bottom: -18px;
   right: 48px;
-  font: italic 22px/1.3 var(--font-display);
-  color: #7b6550;
+  font: italic 26px/1.3 var(--font-display);
+  color: #57402e;
   transform: rotate(-4deg);
 }
 .hero-thread {
@@ -397,7 +397,7 @@ section[id] {
 }
 .rabbit-word span {
   color: var(--gold);
-  font-size: 30px;
+  font-size: 34px;
 }
 .rabbit-word p {
   font: italic clamp(58px, 6.8vw, 100px) / 1 var(--font-display);
@@ -449,7 +449,7 @@ section[id] {
 }
 .key-plate > span {
   display: block;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 2px;
   color: var(--muted);
   text-align: center;
@@ -565,24 +565,24 @@ section[id] {
   padding-top: 58px;
 }
 .month-number {
-  font: italic 40px/1 var(--font-display);
-  color: #89704a;
+  font: italic 44px/1 var(--font-display);
+  color: #604822;
 }
 .month-caption > span:nth-child(2) {
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 1.1px;
 }
 .month-mark {
   margin-left: auto;
   align-self: center;
-  color: #8d7958;
-  font-size: 19px;
+  color: #604822;
+  font-size: 21px;
 }
 .doors-closing {
   max-width: 950px;
   margin-inline: auto;
   text-align: center;
-  font-size: 14px;
+  font-size: 17px;
   color: #655644;
 }
 .doors-closing .lead {
@@ -650,7 +650,7 @@ section[id] {
 }
 .hole-copy .hole-accent {
   color: #eee0c1;
-  font: italic 32px/1.22 var(--font-display);
+  font: italic 36px/1.22 var(--font-display);
   margin-top: 32px;
 }
 .dates-section {
@@ -669,7 +669,7 @@ section[id] {
 }
 .tiny-star {
   display: block;
-  font-size: 35px;
+  font-size: 39px;
   color: var(--gold);
   margin-bottom: 22px;
 }
@@ -683,12 +683,12 @@ section[id] {
 }
 .dates-section .dates-list {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 36px;
   line-height: 1.5;
 }
 .online {
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 2px;
   margin-top: 24px;
 }
@@ -746,7 +746,7 @@ section[id] {
   display: block;
   text-align: center;
   padding: 22px 8px;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 2.4px;
 }
 .portrait-side {
@@ -754,7 +754,7 @@ section[id] {
   top: 43%;
   right: -33px;
   writing-mode: vertical-rl;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 2px;
   color: var(--muted);
 }
@@ -763,11 +763,11 @@ section[id] {
   margin-bottom: 32px;
 }
 .about-lead {
-  font: 29px/1.26 var(--font-display);
+  font: 33px/1.26 var(--font-display);
   margin-bottom: 27px;
 }
 .about-copy .prose {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.95;
 }
 
@@ -826,7 +826,7 @@ section[id] {
   background: #e2d3b6;
 }
 .plan-number {
-  font: italic 38px/1 var(--font-display);
+  font: italic 42px/1 var(--font-display);
   color: var(--gold);
   display: flex;
   align-items: center;
@@ -848,8 +848,8 @@ section[id] {
   letter-spacing: -1px;
 }
 .plan-description {
-  color: #685744;
-  font-size: 13px;
+  color: #51402d;
+  font-size: 16px;
   line-height: 1.85;
   margin-top: 23px;
   text-align: center;
@@ -859,7 +859,7 @@ section[id] {
   border-top: 1px solid #a78e655c;
   padding-top: 27px;
   margin-top: 20px;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.8;
 }
 .plan-features > p {
@@ -874,7 +874,7 @@ section[id] {
   position: relative;
   padding-left: 20px;
   margin-bottom: 14px;
-  color: #60503e;
+  color: #51402d;
 }
 .plan-features li::before {
   content: "—";
@@ -887,12 +887,12 @@ section[id] {
   padding-top: 30px;
 }
 .price {
-  font: 500 63px/1 var(--font-display);
+  font: 500 67px/1 var(--font-display);
   text-align: center;
   margin-bottom: 29px;
 }
 .price > span {
-  font-size: 36px;
+  font-size: 40px;
 }
 .price-card .button {
   width: 100%;
@@ -923,13 +923,13 @@ section[id] {
 }
 .final-copy .prose {
   max-width: 490px;
-  font-size: 14px;
+  font-size: 17px;
 }
 .final-invite {
   margin-top: 40px;
 }
 .final-name {
-  font: 33px/1.14 var(--font-display);
+  font: 37px/1.14 var(--font-display);
   margin-bottom: 24px;
 }
 .final-invite .online {
@@ -953,7 +953,7 @@ section[id] {
 }
 .final-art > span {
   display: block;
-  font-size: 8px;
+  font-size: 12px;
   text-align: center;
   color: var(--muted);
   letter-spacing: 1.7px;
@@ -969,14 +969,14 @@ section[id] {
   gap: 35px;
 }
 .footer-name {
-  font: 30px/1.2 var(--font-display);
+  font: 34px/1.2 var(--font-display);
   white-space: nowrap;
 }
 .social-links {
   display: flex;
   flex-wrap: wrap;
   gap: 28px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .social-links a {
   border-bottom: 1px solid #a98b5e;
@@ -988,13 +988,13 @@ section[id] {
 }
 .social-placeholder small {
   display: block;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 1.5;
 }
 .credits-link {
   display: inline-block;
-  font-size: 10px;
+  font-size: 13px;
   margin-top: 22px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -1012,11 +1012,11 @@ section[id] {
     width: calc(100% - 76px);
   }
   .hero h1 {
-    font-size: 92px;
+    font-size: 96px;
     letter-spacing: -3px;
   }
   .hero-subtitle {
-    font-size: 31px;
+    font-size: 35px;
   }
   .hero-art {
     margin-left: -28px;
@@ -1045,7 +1045,7 @@ section[id] {
     gap: 70px;
   }
   .about-lead {
-    font-size: 26px;
+    font-size: 30px;
   }
   .pricing-grid {
     gap: 30px;
@@ -1065,30 +1065,30 @@ section[id] {
     height: 88px;
   }
   .wordmark {
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 2.3px;
   }
   .wordmark span {
-    font-size: 7px;
+    font-size: 12px;
     letter-spacing: 1.1px;
   }
   .header nav {
     gap: 22px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .hero {
     padding-block: 55px 95px;
   }
   .hero h1 {
-    font-size: 75px;
+    font-size: 78px;
   }
   .hero-kicker {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 1.8px;
     margin-bottom: 24px;
   }
   .hero-subtitle {
-    font-size: 26px;
+    font-size: 30px;
   }
   .hero-art {
     margin-left: -12px;
@@ -1096,32 +1096,32 @@ section[id] {
   }
   .hero .button {
     min-width: 260px;
-    font-size: 11px;
+    font-size: 14px;
     padding-inline: 19px;
   }
   .plate-label {
-    font-size: 7px;
+    font-size: 12px;
     right: 0;
   }
   .art-caption {
-    font-size: 18px;
+    font-size: 20px;
     right: 0;
     bottom: -30px;
   }
   .format {
-    font-size: 11px;
+    font-size: 14px;
   }
   .dates-list {
-    font-size: 12px;
+    font-size: 15px;
   }
   h2 {
-    font-size: 56px;
+    font-size: 58px;
   }
   .intro-columns {
     gap: 40px;
   }
   .intro-columns .lead {
-    font-size: 32px;
+    font-size: 36px;
   }
   .intro-ending {
     margin-right: 0;
@@ -1134,10 +1134,10 @@ section[id] {
     margin-left: 10px;
   }
   .invitation-copy h2 {
-    font-size: 43px;
+    font-size: 45px;
   }
   .invitation-copy .prose {
-    font-size: 14px;
+    font-size: 17px;
   }
   .section-heading {
     grid-template-columns: 1fr;
@@ -1177,48 +1177,48 @@ section[id] {
     max-width: 570px;
   }
   .hole-copy h2 {
-    font-size: 53px;
+    font-size: 55px;
   }
   .about-grid {
     gap: 48px;
     align-items: start;
   }
   .about-copy h2 {
-    font-size: 72px;
+    font-size: 75px;
   }
   .about-copy .prose {
-    font-size: 13px;
+    font-size: 16px;
   }
   .about-lead {
-    font-size: 25px;
+    font-size: 29px;
   }
   .portrait-side {
     right: -25px;
-    font-size: 7px;
+    font-size: 12px;
   }
   .price-card {
     padding: 45px 29px 34px;
   }
   .price-card h3 {
-    font-size: 36px;
+    font-size: 40px;
   }
   .price-card .button {
-    font-size: 10px;
+    font-size: 13px;
     padding-inline: 15px;
     gap: 10px;
   }
   .plan-description,
   .plan-features {
-    font-size: 12px;
+    font-size: 15px;
   }
   .final-grid {
     gap: 45px;
   }
   .final-copy h2 {
-    font-size: 46px;
+    font-size: 48px;
   }
   .final-art > span {
-    font-size: 7px;
+    font-size: 12px;
   }
   .footer-row {
     align-items: start;
@@ -1235,30 +1235,30 @@ section[id] {
     );
   }
   body {
-    font-size: 15px;
+    font-size: 18px;
   }
   .section {
     padding-block: 72px;
   }
   h2 {
-    font-size: 47px;
+    font-size: 49px;
     letter-spacing: -1.2px;
     line-height: 1.02;
   }
   .section-label {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 1.8px;
     gap: 13px;
     margin-bottom: 27px;
   }
   .section-label > span {
-    font-size: 19px;
+    font-size: 21px;
   }
   .section-label i {
     width: 26px;
   }
   .prose {
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.9;
   }
   .prose p + p {
@@ -1272,15 +1272,15 @@ section[id] {
     display: none;
   }
   .wordmark {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 2px;
   }
   .wordmark span {
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 1px;
   }
   .nav-join {
-    font-size: 10px;
+    font-size: 13px;
   }
   .nav-join span {
     padding-left: 8px;
@@ -1297,7 +1297,7 @@ section[id] {
   }
   .hero-kicker {
     margin-bottom: 20px;
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 1.7px;
   }
   .hero h1 {
@@ -1308,7 +1308,7 @@ section[id] {
     margin-top: 4px;
   }
   .hero-subtitle {
-    font-size: 27px;
+    font-size: 31px;
     margin-top: 17px;
   }
   .hero-art {
@@ -1353,17 +1353,17 @@ section[id] {
     padding-left: 0;
   }
   .hero .format {
-    font-size: 11px;
+    font-size: 14px;
     margin-bottom: 6px;
   }
   .hero .dates-list {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.8;
   }
   .hero .button {
     min-width: 285px;
     max-width: 100%;
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 19px;
     min-height: 57px;
   }
@@ -1375,7 +1375,7 @@ section[id] {
     bottom: -1px;
   }
   .intro h2 {
-    font-size: 49px;
+    font-size: 51px;
   }
   .intro-columns {
     grid-template-columns: 1fr;
@@ -1383,17 +1383,17 @@ section[id] {
     margin-top: 32px;
   }
   .intro-columns .lead {
-    font-size: 32px;
+    font-size: 36px;
   }
   .rabbit-word {
     gap: 19px;
     margin: 48px 0 35px;
   }
   .rabbit-word p {
-    font-size: 53px;
+    font-size: 55px;
   }
   .rabbit-word span {
-    font-size: 26px;
+    font-size: 30px;
   }
   .intro-ending {
     max-width: none;
@@ -1412,13 +1412,13 @@ section[id] {
     grid-row: 1;
   }
   .invitation-copy h2 {
-    font-size: 44px;
+    font-size: 46px;
   }
   .invitation-copy .prose {
-    font-size: 15px;
+    font-size: 18px;
   }
   .invitation-last {
-    font-size: 46px;
+    font-size: 48px;
   }
   .key-plate {
     max-width: 255px;
@@ -1429,7 +1429,7 @@ section[id] {
     transform: rotate(-5deg);
   }
   .key-plate > span {
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 25px;
   }
   .invitation .thread {
@@ -1440,13 +1440,13 @@ section[id] {
     padding-bottom: 105px;
   }
   .doors-section h2 {
-    font-size: 44px;
+    font-size: 46px;
   }
   .section-heading {
     gap: 28px;
   }
   .doors-intro {
-    font-size: 15px;
+    font-size: 18px;
   }
   .door-grid {
     gap: 30px 20px;
@@ -1467,20 +1467,20 @@ section[id] {
     padding: 15px 2px 0;
   }
   .month-number {
-    font-size: 29px;
+    font-size: 33px;
   }
   .month-caption > span:nth-child(2) {
-    font-size: 12px;
+    font-size: 15px;
     letter-spacing: 0;
   }
   .month-mark {
     display: none;
   }
   .doors-closing {
-    font-size: 14px;
+    font-size: 17px;
   }
   .doors-closing .lead {
-    font-size: 36px;
+    font-size: 40px;
     margin-block: 25px;
   }
   .desktop-break {
@@ -1510,33 +1510,33 @@ section[id] {
     background: linear-gradient(#222b23, #222b23e0 18%, #222b2300 65%);
   }
   .hole-copy h2 {
-    font-size: 42px;
+    font-size: 44px;
   }
   .hole-copy .prose {
-    font-size: 15px;
+    font-size: 18px;
     margin-top: 30px;
   }
   .hole-copy .hole-accent {
-    font-size: 31px;
+    font-size: 35px;
   }
   .dates-section {
     padding-block: 72px;
   }
   .dates-section h2 {
-    font-size: 48px;
+    font-size: 50px;
   }
   .dates-section h3 {
     margin-top: 29px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .dates-section .dates-list {
-    font-size: 25px;
+    font-size: 29px;
   }
   .tiny-star {
     margin-bottom: 20px;
   }
   .online {
-    font-size: 10px;
+    font-size: 13px;
     margin-top: 20px;
   }
   .about-grid {
@@ -1554,26 +1554,26 @@ section[id] {
   }
   .portrait-caption {
     padding-block: 19px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .portrait-side {
     display: none;
   }
   .about-copy h2 {
-    font-size: 74px;
+    font-size: 77px;
     margin-bottom: 26px;
   }
   .about-lead {
-    font-size: 27px;
+    font-size: 31px;
   }
   .about-copy .prose {
-    font-size: 15px;
+    font-size: 18px;
   }
   .pricing-section::before {
     inset: 8px;
   }
   .center-heading h2 {
-    font-size: 48px;
+    font-size: 50px;
   }
   .pricing-grid {
     grid-template-columns: 1fr;
@@ -1584,24 +1584,24 @@ section[id] {
     padding: 45px 30px 34px;
   }
   .price-card h3 {
-    font-size: 41px;
+    font-size: 43px;
   }
   .plan-number {
-    font-size: 34px;
+    font-size: 38px;
     margin-bottom: 19px;
   }
   .plan-description {
-    font-size: 14px;
+    font-size: 17px;
     min-height: 0;
   }
   .plan-features {
-    font-size: 14px;
+    font-size: 17px;
   }
   .price {
-    font-size: 59px;
+    font-size: 61px;
   }
   .price-card .button {
-    font-size: 11px;
+    font-size: 14px;
     padding-inline: 17px;
     min-height: 58px;
   }
@@ -1617,22 +1617,22 @@ section[id] {
     gap: 40px;
   }
   .final-copy h2 {
-    font-size: 46px;
+    font-size: 48px;
   }
   .final-copy .prose {
-    font-size: 15px;
+    font-size: 18px;
   }
   .final-name {
-    font-size: 35px;
+    font-size: 39px;
   }
   .final-invite {
     margin-top: 33px;
   }
   .final-invite .format {
-    font-size: 12px;
+    font-size: 15px;
   }
   .final-invite .dates-list {
-    font-size: 13px;
+    font-size: 16px;
   }
   .final-invite .button {
     min-width: 280px;
@@ -1644,20 +1644,20 @@ section[id] {
     margin: 0 auto;
   }
   .final-art > span {
-    font-size: 8px;
+    font-size: 12px;
   }
   .footer {
     padding-top: 34px;
   }
   .footer-name {
-    font-size: 29px;
+    font-size: 33px;
   }
   .social-links {
-    font-size: 12px;
+    font-size: 15px;
     gap: 22px 25px;
   }
   .credits-link {
-    font-size: 11px;
+    font-size: 14px;
     min-height: 44px;
   }
 }
@@ -1681,17 +1681,38 @@ section[id] {
 }
 
 /* The provider owns the form and its responsive height. */
-.order-next-step { margin: 16px 0 0; font-size: 12px; line-height: 1.7; color: var(--muted); text-align: center; }
+.order-next-step { margin: 16px 0 0; font-size: 15px; line-height: 1.7; color: var(--muted); text-align: center; }
 .order-panel { position: relative; max-width: 800px; margin: 64px auto 0; padding: 48px; color: #372f27; background: #eee5d2 url('/textures/texture-paper.svg'); border: 1px solid #9a7c4d; outline: 1px solid #9a7c4d; outline-offset: -9px; scroll-margin-top: 32px; }
 .order-panel h2 { margin: 20px 0; }
-.order-intro { max-width: 580px; margin-bottom: 24px; line-height: 1.8; color: #6d6050; }
+.order-intro { max-width: 580px; margin-bottom: 24px; line-height: 1.8; color: #534737; }
 .getcourse-order { width: 100%; min-width: 0; background: transparent; }
 .getcourse-order iframe { display: block; width: 100%; max-width: 100%; border: 0; background: transparent; }
-.order-status { font-size: 13px; line-height: 1.7; color: #6d6050; }
+.order-status { font-size: 16px; line-height: 1.7; color: #534737; }
 @media (max-width: 680px) {
   .order-panel { margin-top: 40px; padding: 30px 12px; outline-offset: -5px; }
   .order-panel h2, .order-panel > .section-label, .order-intro, .order-status { margin-left: 8px; margin-right: 8px; }
 }
 
-.order-fallback { margin-top: 24px; font-size: 12px; line-height: 1.7; color: #6d6050; }
+.order-fallback { margin-top: 24px; font-size: 15px; line-height: 1.7; color: #534737; }
 .order-fallback a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Readable decorative lettering and date choices across all breakpoints. */
+em, .art-caption, .month-number, .section-label > span, .plan-number {
+  font-weight: 500;
+}
+.art-caption { font-size: 30px; }
+.dates-section .dates-list { margin-top: 36px; max-width: 800px; margin-inline: auto; }
+.dates-list time { white-space: nowrap; }
+.social-disclaimer { max-width: 850px; margin: 24px 0 0 auto; font-size: 14px; line-height: 1.8; color: var(--muted); }
+.footer-service { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--line); }
+.footer-service .credits-link { margin-top: 0; font-size: 12px; }
+@media (max-width: 680px) {
+  .month-caption { gap: 8px; padding-inline: 0; }
+  .month-caption > span:nth-child(2) { letter-spacing: 0; }
+  .month-mark { display: none; }
+  .social-disclaimer { margin-left: 0; }
+}
+.footer-row { align-items: flex-start; }
+.footer-socials { max-width: 760px; min-width: 0; }
+.meta-socials { margin-top: 14px; }
+.meta-socials .social-disclaimer { margin: 8px 0 0; }

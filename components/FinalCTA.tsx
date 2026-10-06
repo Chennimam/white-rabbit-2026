@@ -34,7 +34,7 @@ export function FinalCTA() {
               <em>12 дверей в Новый год.</em>
             </p>
             <p className="format">Новогодняя онлайн-мистерия</p>
-            <DatesList />
+            <DatesList atmospheric />
             <p className="online">Онлайн</p>
             <CTA />
           </div>
