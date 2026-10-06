@@ -1,3 +1,4 @@
+import { EditorialImage } from "./EditorialImage";
 import { Reveal } from "./Reveal";
 import { SectionLabel, Thread } from "./Shared";
 export function Intro() {
@@ -35,6 +36,15 @@ export function Intro() {
         <span aria-hidden="true">✧</span>
         <p>Белый Кролик.</p>
       </Reveal>
+      <div className="intro-passage">
+        <Reveal className="intro-passage-art">
+          <EditorialImage
+            name="rabbit-passage"
+            alt="Белый Кролик с большими карманными часами перед тёмным входом в проход под корнями"
+            width={960}
+            height={1440}
+          />
+        </Reveal>
       <div className="intro-ending prose">
         <Reveal>
           <p>Иногда новый путь начинается с обычного детского любопытства.</p>
@@ -48,6 +58,7 @@ export function Intro() {
             что ещё вчера казалось невозможным.
           </p>
         </Reveal>
+      </div>
       </div>
       <Thread />
     </section>

@@ -1781,3 +1781,31 @@ em, .art-caption, .month-number, .section-label > span, .plan-number {
   .dates-copy h2 { font-size: 48px; }
   .dates-copy .dates-list { font-size: 29px; }
 }
+
+/* The guide at the entrance balances the existing prose without changing its type. */
+.intro-passage {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(48px, 7vw, 110px);
+  max-width: 1120px;
+  margin-inline: auto;
+}
+.intro-passage-art {
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 75%);
+}
+.intro-passage-art img { width: 100%; height: auto; }
+.intro-passage .intro-ending { min-width: 0; margin: 0; }
+@media (max-width: 900px) {
+  .intro-passage { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .intro-passage-art { max-width: 240px; }
+  .intro-passage .intro-ending { margin-inline: auto; }
+}
+@media (max-width: 680px) {
+  .intro-passage { gap: 24px; }
+  .intro-passage-art { max-width: 200px; }
+}
