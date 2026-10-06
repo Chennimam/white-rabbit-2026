@@ -1682,7 +1682,7 @@ section[id] {
 
 /* The provider owns the form and its responsive height. */
 .order-next-step { margin: 16px 0 0; font-size: 15px; line-height: 1.7; color: var(--muted); text-align: center; }
-.order-panel { position: relative; max-width: 800px; margin: 64px auto 0; padding: 48px; color: #372f27; background: #eee5d2 url('/textures/texture-paper.svg'); border: 1px solid #9a7c4d; outline: 1px solid #9a7c4d; outline-offset: -9px; scroll-margin-top: 32px; }
+.order-panel { position: relative; max-width: 1180px; margin: 64px auto 0; padding: 48px; color: #372f27; background: #eee5d2 url('/textures/texture-paper.svg'); border: 1px solid #9a7c4d; outline: 1px solid #9a7c4d; outline-offset: -9px; scroll-margin-top: 32px; }
 .order-panel h2 { margin: 20px 0; }
 .order-intro { max-width: 580px; margin-bottom: 24px; line-height: 1.8; color: #534737; }
 .getcourse-order { width: 100%; min-width: 0; background: transparent; }
@@ -1716,3 +1716,24 @@ em, .art-caption, .month-number, .section-label > span, .plan-number {
 .footer-socials { max-width: 760px; min-width: 0; }
 .meta-socials { margin-top: 14px; }
 .meta-socials .social-disclaimer { margin: 8px 0 0; }
+
+/* Ticket invitation: text first, then engraving and the untouched provider form. */
+.order-heading { max-width: 900px; margin: 0 auto 28px; text-align: center; }
+.order-heading .section-label { justify-content: center; }
+.order-panel h2 { font-size: clamp(44px, 5vw, 72px); line-height: 1.06; }
+.order-panel h2 em { display: block; }
+.order-heading .order-intro { max-width: 660px; margin: 24px auto 0; }
+.order-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 32px; align-items: start; }
+.order-art { max-width: 400px; width: 100%; margin: 16px auto 0; mix-blend-mode: multiply; mask-image: radial-gradient(ellipse at center, #000 53%, transparent 73%); }
+.order-art img { width: 100%; height: auto; }
+.order-form { min-width: 0; padding-top: 24px; }
+@media (max-width: 900px) {
+  .order-layout { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .order-art { max-width: 220px; margin-top: 0; }
+  .order-form { padding-top: 0; }
+}
+@media (max-width: 680px) {
+  .order-heading { margin-bottom: 12px; }
+  .order-heading .order-intro { margin-inline: 8px; }
+  .order-art { max-width: 190px; }
+}

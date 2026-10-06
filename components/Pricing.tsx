@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { EditorialImage } from "./EditorialImage";
 import { pricing } from "@/data/pricing";
 import { Reveal } from "./Reveal";
 import { SectionLabel, CTA } from "./Shared";
@@ -47,18 +48,32 @@ export function Pricing() {
           ))}
         </div>
         <div className="order-panel" id="order" aria-labelledby="order-title">
-          <SectionLabel number="VII">Ваш билет в мистерию</SectionLabel>
-          <h2 id="order-title">Оформление <em>участия</em></h2>
-          <p className="order-intro">
-            Выберите «Путешественник» или «Исследователь» в форме ниже,
-            заполните свои данные и перейдите к оплате.
-          </p>
-          <p className="order-status" id="order-status" role="status">Загружаем форму оформления участия…</p>
-          <div id="getcourse-order" className="getcourse-order" />
-          <p className="order-fallback">
-            Форма не появилась? <a href="https://tarotroad.getcourse.ru/pl/lite/widget/widget?id=1665193" target="_blank" rel="noopener noreferrer">Откройте её в отдельной вкладке ↗</a>
-          </p>
-          <noscript>Для оформления участия включите JavaScript в браузере.</noscript>
+          <div className="order-heading">
+            <SectionLabel number="VII">Ваш билет в мистерию</SectionLabel>
+            <h2 id="order-title">Купить билет <em>в кроличью нору</em></h2>
+            <p className="order-intro">
+              Выберите тариф и дату в форме ниже, заполните свои данные
+              и перейдите к оплате.
+            </p>
+          </div>
+          <div className="order-layout">
+            <div className="order-art">
+              <EditorialImage
+                name="registration-rabbit"
+                alt="Белый Кролик в викторианском жилете держит большие карманные часы"
+                width={960}
+                height={1440}
+              />
+            </div>
+            <div className="order-form">
+              <p className="order-status" id="order-status" role="status">Загружаем форму оформления участия…</p>
+              <div id="getcourse-order" className="getcourse-order" />
+              <p className="order-fallback">
+                Форма не появилась? <a href="https://tarotroad.getcourse.ru/pl/lite/widget/widget?id=1665193" target="_blank" rel="noopener noreferrer">Откройте её в отдельной вкладке ↗</a>
+              </p>
+              <noscript>Для оформления участия включите JavaScript в браузере.</noscript>
+            </div>
+          </div>
         </div>
         <Script src="/getcourse-init.js" strategy="afterInteractive" />
       </div>
