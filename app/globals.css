@@ -1737,3 +1737,18 @@ em, .art-caption, .month-number, .section-label > span, .plan-number {
   .order-heading .order-intro { margin-inline: 8px; }
   .order-art { max-width: 190px; }
 }
+
+.dates-section .dates-cta {
+  margin-top: 28px;
+  min-height: 60px;
+  width: 240px;
+  max-width: 100%;
+  font-size: 17px;
+}
+@media (max-width: 680px) {
+  .dates-section .dates-cta {
+    width: 100%;
+    min-height: 64px;
+    font-size: 18px;
+  }
+}

@@ -1,5 +1,5 @@
 import { Reveal } from "./Reveal";
-import { DatesList } from "./Shared";
+import { CTA, DatesList } from "./Shared";
 export function Dates() {
   return (
     <section
@@ -16,6 +16,7 @@ export function Dates() {
           <em>за Белым Кроликом?</em>
         </h2>
         <DatesList atmospheric />
+        <CTA href="#order" className="dates-cta">Пойти</CTA>
         <p className="online">
           <span aria-hidden="true" />
           Онлайн
