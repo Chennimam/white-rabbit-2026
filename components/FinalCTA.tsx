@@ -1,3 +1,54 @@
-import { Reveal } from './Reveal';
-import { CTA, DatesList, Thread } from './Shared';
-export function FinalCTA() { return <section className="final-section section" aria-labelledby="final-title"><Thread /><div className="shell final-grid"><Reveal className="final-copy"><h2 id="final-title">Иногда достаточно<br /><em>открыть одну дверь</em></h2><div className="prose"><p>Иногда кажется, что для изменений требуется совершенно новая жизнь.</p><p>Но иногда всё начинается гораздо тише.</p><p>С нового вопроса.<br />С неожиданного образа.<br />С маленького решения.<br />С двери, которую раньше мы не замечали.</p><p>И с готовности посмотреть, что находится по ту сторону.</p></div><div className="final-invite"><p className="final-name">За Белым Кроликом.<br /><em>12 дверей в Новый год.</em></p><p className="format">Новогодняя онлайн-мистерия</p><DatesList /><p className="online">Онлайн</p><CTA /></div></Reveal><div className="final-art" aria-hidden="true"><svg viewBox="0 0 350 560" fill="none"><defs><linearGradient id="doorGlow" x1="130" y1="50" x2="300" y2="450" gradientUnits="userSpaceOnUse"><stop stopColor="#f8e9bd" /><stop offset="1" stopColor="#e8c37b" stopOpacity=".2" /></linearGradient></defs><path d="M67 450V140C67 24 285 24 285 140V450Z" fill="url(#doorGlow)" stroke="#a18a5f" /><path d="M52 462V140C52 6 300 6 300 140V462M43 470V140C43-5 309-5 309 140V470M33 474h285M20 487h307M4 503h340" stroke="#8f7958" /><path d="M67 450V140Q69 65 172 54L160 409Z" fill="#d6c4a0" stroke="#7d6b50" strokeWidth="1.4" /><path d="M82 168V143q8-58 74-68l-4 83Zm0 20 68-17-3 100-65 27Zm0 127 64-31-3 109-61 39Z" stroke="#98825e" /><circle cx="136" cy="278" r="4" stroke="#6e593c" /><path d="m160 409 139 132M67 450l-22 75" stroke="#b5a27e" opacity=".4" /></svg><span>ПО ТУ СТОРОНУ — ВОЗМОЖНОСТЬ</span></div></div></section>; }
+import { Reveal } from "./Reveal";
+import { CTA, DatesList, Thread } from "./Shared";
+import { EditorialImage } from "./EditorialImage";
+
+export function FinalCTA() {
+  return (
+    <section className="final-section section" aria-labelledby="final-title">
+      <Thread />
+      <div className="shell final-grid">
+        <Reveal className="final-copy">
+          <h2 id="final-title">
+            Иногда достаточно
+            <br />
+            <em>открыть одну дверь</em>
+          </h2>
+          <div className="prose">
+            <p>
+              Иногда кажется, что для изменений требуется совершенно новая
+              жизнь.
+            </p>
+            <p>Но иногда всё начинается гораздо тише.</p>
+            <p>
+              С нового вопроса.
+              <br />С неожиданного образа.
+              <br />С маленького решения.
+              <br />С двери, которую раньше мы не замечали.
+            </p>
+            <p>И с готовности посмотреть, что находится по ту сторону.</p>
+          </div>
+          <div className="final-invite">
+            <p className="final-name">
+              За Белым Кроликом.
+              <br />
+              <em>12 дверей в Новый год.</em>
+            </p>
+            <p className="format">Новогодняя онлайн-мистерия</p>
+            <DatesList />
+            <p className="online">Онлайн</p>
+            <CTA />
+          </div>
+        </Reveal>
+        <Reveal className="final-art">
+          <EditorialImage
+            name="final-door"
+            alt="Приоткрытая старинная дверь, за которой виден тёплый свет"
+            width={1000}
+            height={1500}
+          />
+          <span aria-hidden="true">ПО ТУ СТОРОНУ — ВОЗМОЖНОСТЬ</span>
+        </Reveal>
+      </div>
+    </section>
+  );
+}

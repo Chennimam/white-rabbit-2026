@@ -2,7 +2,30 @@
   "name": "white-rabbit-mystery",
   "version": "1.0.0",
   "private": true,
-  "scripts": {"dev": "next dev", "build": "next build --webpack", "start": "next start", "lint": "eslint .", "typecheck": "tsc --noEmit"},
-  "dependencies": {"next": "^16.0.0", "react": "^19.2.0", "react-dom": "^19.2.0", "framer-motion": "^12.23.0", "lucide-react": "^0.468.0", "@fontsource/cormorant-garamond": "^5.2.0", "@fontsource/manrope": "^5.2.0"},
-  "devDependencies": {"typescript": "^5.9.0", "@types/node": "^22.0.0", "@types/react": "^19.0.0", "@types/react-dom": "^19.0.0", "tailwindcss": "^4.1.0", "@tailwindcss/postcss": "^4.1.0", "eslint": "^9.0.0", "eslint-config-next": "^16.0.0"}
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "framer-motion": "^12.23.0",
+    "lucide-react": "^0.468.0",
+    "@fontsource/cormorant-garamond": "^5.2.0",
+    "@fontsource/manrope": "^5.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0"
+  }
 }

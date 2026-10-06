@@ -1,3 +1,55 @@
-import { Reveal } from './Reveal';
-import { SectionLabel, Thread } from './Shared';
-export function Intro() { return <section className="intro section shell" id="story" aria-labelledby="intro-title"><SectionLabel number="I">Между старым и новым</SectionLabel><Reveal><h2 id="intro-title">Раз в году возникает<br /><em>особое время.</em></h2></Reveal><div className="intro-columns"><Reveal><p className="lead">Старый путь уже пройден,<br />но новый ещё не начался.</p></Reveal><Reveal className="prose"><p>Привычные карты больше не помогают, знакомые двери ведут туда же, куда вели раньше, а где-то совсем рядом появляется что-то странное, неожиданное, почти невозможное.</p></Reveal></div><Reveal className="rabbit-word"><span aria-hidden="true">✧</span><p>Белый Кролик.</p></Reveal><div className="intro-ending prose"><Reveal><p>Иногда новый путь начинается с обычного детского любопытства.</p><p>С желания посмотреть, что находится за дверью, которую раньше мы не замечали.</p><p>С готовности выйти из привычного масштаба, потерять на некоторое время старые координаты и оказаться в пространстве, где возможно то, что ещё вчера казалось невозможным.</p></Reveal></div><Thread /></section>; }
+import { Reveal } from "./Reveal";
+import { SectionLabel, Thread } from "./Shared";
+export function Intro() {
+  return (
+    <section
+      className="intro section shell"
+      id="story"
+      aria-labelledby="intro-title"
+    >
+      <SectionLabel number="I">Между старым и новым</SectionLabel>
+      <Reveal>
+        <h2 id="intro-title">
+          Раз в году возникает
+          <br />
+          <em>особое время.</em>
+        </h2>
+      </Reveal>
+      <div className="intro-columns">
+        <Reveal>
+          <p className="lead">
+            Старый путь уже пройден,
+            <br />
+            но новый ещё не начался.
+          </p>
+        </Reveal>
+        <Reveal className="prose">
+          <p>
+            Привычные карты больше не помогают, знакомые двери ведут туда же,
+            куда вели раньше, а где-то совсем рядом появляется что-то странное,
+            неожиданное, почти невозможное.
+          </p>
+        </Reveal>
+      </div>
+      <Reveal className="rabbit-word">
+        <span aria-hidden="true">✧</span>
+        <p>Белый Кролик.</p>
+      </Reveal>
+      <div className="intro-ending prose">
+        <Reveal>
+          <p>Иногда новый путь начинается с обычного детского любопытства.</p>
+          <p>
+            С желания посмотреть, что находится за дверью, которую раньше мы не
+            замечали.
+          </p>
+          <p>
+            С готовности выйти из привычного масштаба, потерять на некоторое
+            время старые координаты и оказаться в пространстве, где возможно то,
+            что ещё вчера казалось невозможным.
+          </p>
+        </Reveal>
+      </div>
+      <Thread />
+    </section>
+  );
+}

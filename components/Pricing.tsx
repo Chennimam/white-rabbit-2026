@@ -1,4 +1,64 @@
-import { pricing } from '@/data/pricing';
-import { Reveal } from './Reveal';
-import { SectionLabel, CTA } from './Shared';
-export function Pricing() { return <section className="pricing-section section shell" id="participation" aria-labelledby="pricing-title"><Reveal className="center-heading"><SectionLabel number="VI">Выберите свой путь</SectionLabel><h2 id="pricing-title">Два способа <em>войти</em></h2></Reveal><div className="pricing-grid">{pricing.map((plan, index) => <Reveal key={plan.id} className={`price-card price-${plan.id}`}><span className="plan-number" aria-hidden="true">{index === 0 ? 'I' : 'II'}</span><h3>{plan.title}</h3><p className="plan-description">{plan.description}</p><div className="plan-features">{plan.preface && <p>{plan.preface}</p>}<ul>{plan.features.map(feature => <li key={feature}>{feature}</li>)}</ul></div><div className="price-bottom"><p className="price">{new Intl.NumberFormat('ru-RU').format(plan.price)} <span>{plan.currency}</span></p>{plan.paymentUrl ? <CTA href={plan.paymentUrl}>{plan.cta}</CTA> : <><button className="button payment-placeholder" disabled aria-describedby={`payment-${plan.id}`}>{plan.cta}<span aria-hidden="true">↗</span></button><p className="placeholder-note" id={`payment-${plan.id}`}>Ссылка на оплату скоро появится</p></>}</div></Reveal>)}</div></section>; }
+import { pricing } from "@/data/pricing";
+import { Reveal } from "./Reveal";
+import { SectionLabel, CTA } from "./Shared";
+
+export function Pricing() {
+  return (
+    <section
+      className="pricing-section section"
+      id="participation"
+      aria-labelledby="pricing-title"
+    >
+      <div className="shell">
+        <Reveal className="center-heading">
+          <SectionLabel number="VI">Выберите свой путь</SectionLabel>
+          <h2 id="pricing-title">
+            Два способа <em>войти</em>
+          </h2>
+        </Reveal>
+        <div className="pricing-grid">
+          {pricing.map((plan, index) => (
+            <Reveal key={plan.id} className={`price-card price-${plan.id}`}>
+              <span className="plan-number" aria-hidden="true">
+                {index === 0 ? "I" : "II"}
+              </span>
+              <h3>{plan.title}</h3>
+              <p className="plan-description">{plan.description}</p>
+              <div className="plan-features">
+                {plan.preface && <p>{plan.preface}</p>}
+                <ul>
+                  {plan.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="price-bottom">
+                <p className="price">
+                  {new Intl.NumberFormat("ru-RU").format(plan.price)}{" "}
+                  <span>{plan.currency}</span>
+                </p>
+                {plan.paymentUrl ? (
+                  <CTA href={plan.paymentUrl}>{plan.cta}</CTA>
+                ) : (
+                  <>
+                    <button
+                      className="button payment-placeholder"
+                      disabled
+                      aria-describedby={`payment-${plan.id}`}
+                    >
+                      {plan.cta}
+                      <span aria-hidden="true">↗</span>
+                    </button>
+                    <p className="placeholder-note" id={`payment-${plan.id}`}>
+                      Ссылка на оплату скоро появится
+                    </p>
+                  </>
+                )}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

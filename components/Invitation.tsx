@@ -1,3 +1,45 @@
-import { Reveal } from './Reveal';
-import { SectionLabel } from './Shared';
-export function Invitation() { return <section className="invitation section shell" aria-labelledby="invitation-title"><div className="key-plate" aria-hidden="true"><svg viewBox="0 0 220 520" fill="none"><g stroke="currentColor"><ellipse cx="110" cy="105" rx="51" ry="65" /><ellipse cx="110" cy="105" rx="39" ry="53" /><path d="M110 51c-36 14-22 48 0 54 22-6 36-40 0-54Zm0 108c-36-14-22-48 0-54 22 6 36 40 0 54ZM59 105h102M105 170v239h12V170m-19 22h26m-28 9h30m-21 167h64v20h-18v-10h-18v20h36v18h-52m-18 7h25m-14-31v18" strokeWidth="2" /><path d="M75 67q35-40 70 0M75 144q35 40 70 0M111 203v162" strokeWidth=".6" /></g></svg><span>CLAVIS · КЛЮЧ К ПЕРЕМЕНАМ</span></div><Reveal className="invitation-copy"><SectionLabel number="II">Приглашение</SectionLabel><h2 id="invitation-title">Я приглашаю вас<br /><em>пройти этот путь вместе.</em></h2><div className="prose"><p>Оставить в старом году то, что действительно завершилось.</p><p>Увидеть привычки, сценарии и внутренние запреты, которые незаметно удерживают нас на месте.</p><p>Найти свои ключи, собрать уникальные артефакты и подсказки.</p><p>Обнаружить ингредиенты, которые помогут обновить разные пространства жизни и те процессы, которые уже происходят в ней.</p></div><p className="invitation-last">Открыть 12 дверей<br />нового года.</p></Reveal></section>; }
+import { Reveal } from "./Reveal";
+import { SectionLabel, Thread } from "./Shared";
+import { EditorialImage } from "./EditorialImage";
+
+export function Invitation() {
+  return (
+    <section
+      className="invitation section shell"
+      aria-labelledby="invitation-title"
+    >
+      <Reveal className="key-plate">
+        <div className="key-mount" aria-hidden="true">
+          <EditorialImage name="antique-key" width={750} height={1125} />
+        </div>
+        <span aria-hidden="true">CLAVIS · КЛЮЧ К ПЕРЕМЕНАМ</span>
+      </Reveal>
+      <Reveal className="invitation-copy">
+        <SectionLabel number="II">Приглашение</SectionLabel>
+        <h2 id="invitation-title">
+          Я приглашаю вас
+          <br />
+          <em>пройти этот путь вместе.</em>
+        </h2>
+        <div className="prose">
+          <p>Оставить в старом году то, что действительно завершилось.</p>
+          <p>
+            Увидеть привычки, сценарии и внутренние запреты, которые незаметно
+            удерживают нас на месте.
+          </p>
+          <p>Найти свои ключи, собрать уникальные артефакты и подсказки.</p>
+          <p>
+            Обнаружить ингредиенты, которые помогут обновить разные пространства
+            жизни и те процессы, которые уже происходят в ней.
+          </p>
+        </div>
+        <p className="invitation-last">
+          Открыть 12 дверей
+          <br />
+          нового года.
+        </p>
+      </Reveal>
+      <Thread />
+    </section>
+  );
+}
