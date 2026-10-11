@@ -142,3 +142,9 @@ test("alternate endpoint hostname cannot bypass a custom-domain allowlist", asyn
   const response = await invoke(req({ messages }, { Origin: custom }), { ...env, ALLOWED_ORIGINS: custom });
   assert.equal(response.status, 403);
 });
+
+
+test("AI escalation marker becomes consent invitation, never a Telegram call", async () => {
+  const response = await invoke(req(), env, async () => Response.json(output("[[ESCALATE_TO_MARIA]]")));
+  assert.deepEqual(await response.json(), { reply: "Этот вопрос лучше уточнить у Марии. Хотите, я передам ей ваш вопрос?" });
+});

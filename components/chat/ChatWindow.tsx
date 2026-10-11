@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { KeyRound, X } from "lucide-react";
 import type { useChat } from "@/lib/chat/useChat";
+import { ESCALATION_OFFER } from "@/lib/chat/escalation";
+import { ChatEscalation } from "./ChatEscalation";
 import { ChatInput } from "./ChatInput";
 import { ChatMessageList } from "./ChatMessageList";
 
@@ -37,6 +39,8 @@ export function ChatWindow({ chat, onClose }: { chat: ReturnType<typeof useChat>
     };
   }, []);
   const waiting = chat.status === "sending" || chat.status === "typing";
+  const last = chat.messages.at(-1);
+  const question = chat.messages.slice(0, -1).findLast((m) => m.role === "user");
   return (
     <dialog ref={dialog} className="chat-window" id="guide-dialog" aria-labelledby="guide-title"
       aria-describedby="guide-description" onCancel={(event) => { event.preventDefault(); onClose(); }}>
@@ -46,6 +50,8 @@ export function ChatWindow({ chat, onClose }: { chat: ReturnType<typeof useChat>
         <button ref={closeButton} type="button" onClick={onClose} aria-label="Закрыть чат"><X aria-hidden="true" /></button>
       </header>
       <ChatMessageList messages={chat.messages} status={chat.status} />
+      {last?.role === "assistant" && last.content === ESCALATION_OFFER && question &&
+        <ChatEscalation key={last.id} question={question.content} />}
       {chat.status === "error" && <div className="chat-error" role="alert">
         <p>Проводник сейчас немного задерживается. Попробуйте ещё раз через минуту. Если вопрос срочный, напишите Марии в Telegram: @Mariucha.</p>
         <button type="button" onClick={chat.retry}>Повторить</button>

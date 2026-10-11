@@ -147,3 +147,15 @@ SHA-256 исходной фотографии и файла проекта со�
 - npm audit сообщает 5 high записей в существующей цепочке ESLint/fast-glob/braces,
   fixAvailable:false; это dev tooling, не клиентский/Pages runtime. Автообновление
   с breaking changes не выполнялось.
+
+
+## Telegram escalation поверх 18790e8
+
+- 45 тестов: прежние сценарии чата плюс AI escalation, подтверждение UI,
+  отсутствие Telegram вызова без consent, запрет произвольного получателя,
+  лимиты тела/полей/origin, SQL rate limiting, сбои и таймаут Telegram.
+- Rate limiter проверен реальным SQLite UPSERT через node:sqlite; Telegram —
+  подставными ответами, без отправки сообщений владельцу.
+- Build проверяет frontend на серверные конфигурационные маркеры и Telegram API URL.
+- Визуальная проверка браузером и настоящий Telegram вызов здесь не подтверждены:
+  нужны доступный браузер и настроенные владельцем Cloudflare secrets + D1.

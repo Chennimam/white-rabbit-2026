@@ -1,3 +1,4 @@
+import { ESCALATION_OFFER } from "../../lib/chat/escalation";
 import { GUIDE_INSTRUCTIONS } from "../_lib/guide";
 
 export interface Env {
@@ -117,7 +118,7 @@ export function createChatHandler(fetcher: typeof fetch = fetch, timeoutMs = 25_
         response.status === 429 ? 429 : 503);
       const reply = extractReply(await response.json());
       if (!reply || reply.includes(env.OPENAI_API_KEY)) return json({ error: "temporarily_unavailable" }, 503);
-      return json({ reply });
+      return json({ reply: reply.includes("[[ESCALATE_TO_MARIA]]") ? ESCALATION_OFFER : reply });
     } catch { return json({ error: "temporarily_unavailable" }, 503); }
     finally { clearTimeout(timeout); }
   };

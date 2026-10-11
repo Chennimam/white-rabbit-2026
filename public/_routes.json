@@ -1,7 +1,8 @@
 {
   "version": 1,
   "include": [
-    "/api/chat"
+    "/api/chat",
+    "/api/escalate"
   ],
   "exclude": []
 }

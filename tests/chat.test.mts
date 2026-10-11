@@ -192,3 +192,49 @@ test("dialog focuses input, handles cancel and restores focus; viewport resize k
   assert.equal(document.body.style.overflow, "");
   launcher.remove();
 });
+
+
+test("escalation UI sends nothing before review and explicit confirmation", async () => {
+  const { ChatEscalation } = await import("../components/chat/ChatEscalation");
+  const original = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async (_url, init) => {
+    calls++;
+    const payload = JSON.parse(init!.body as string);
+    assert.deepEqual(payload, { question: "Перенести дату?", context: "", contact: "", consent: true });
+    return Response.json({ ok: true });
+  };
+  try {
+    const view = render(createElement(ChatEscalation, { question: "Перенести дату?" }));
+    assert.equal(calls, 0);
+    fireEvent.click(view.getByRole("button", { name: "Передать Марии" }));
+    assert.equal(calls, 0);
+    assert.equal((view.getByRole("button", { name: "Подтвердить и отправить" }) as HTMLButtonElement).disabled, true);
+    fireEvent.submit(view.getByRole("form"));
+    assert.equal(calls, 0);
+    fireEvent.click(view.getByRole("checkbox"));
+    await act(async () => {
+      fireEvent.submit(view.getByRole("form"));
+      fireEvent.submit(view.getByRole("form"));
+    });
+    assert.equal(calls, 1);
+    assert.ok(view.getByRole("status").textContent?.includes("Вопрос передан Марии"));
+  } finally { globalThis.fetch = original; }
+});
+
+test("escalation failure shows safe fallback and cancellation revokes consent", async () => {
+  const { ChatEscalation } = await import("../components/chat/ChatEscalation");
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => new Response("private-error", { status: 503 });
+  try {
+    const view = render(createElement(ChatEscalation, { question: "Перенести дату?" }));
+    fireEvent.click(view.getByRole("button", { name: "Передать Марии" }));
+    fireEvent.click(view.getByRole("checkbox"));
+    await act(async () => fireEvent.submit(view.getByRole("form")));
+    assert.ok(view.getByRole("alert").textContent?.includes("Не получилось передать сообщение автоматически"));
+    assert.ok(!view.container.textContent?.includes("private-error"));
+    fireEvent.click(view.getByRole("button", { name: "Отмена" }));
+    fireEvent.click(view.getByRole("button", { name: "Передать Марии" }));
+    assert.equal((view.getByRole("checkbox") as HTMLInputElement).checked, false);
+  } finally { globalThis.fetch = original; }
+});

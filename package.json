@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "npm run build:context && next build --webpack",
+    "build": "npm run build:context && next build --webpack && node scripts/check-chat-boundary.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

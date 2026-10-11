@@ -137,3 +137,11 @@ ALLOWED_ORIGINS="http://localhost:8788,http://127.0.0.1:8788"
 
 Для обновления знаний изменить Markdown, проверить факты, выполнить проверки, commit/push main
 и дождаться нового Pages deploy. Build автоматически обновляет контекст и его hash.
+
+
+## Telegram escalation
+
+Для вопросов, направляемых knowledge к Марии, добавлено предложение передачи и
+отдельный POST /api/escalate. Telegram вызывается только после просмотра вопроса
+и явного подтверждения. Нужны два Telegram secrets и D1 binding для счётчиков
+частоты (без хранения переписки). Подробно: [Telegram escalation](telegram-escalation.md).

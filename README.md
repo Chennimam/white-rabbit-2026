@@ -94,3 +94,12 @@ Next dev и старый автономный HTML-preview не обслужив
 
 Настройки Cloudflare, rate limiting, приватность и первый тест:
 [docs/chat-architecture.md](docs/chat-architecture.md).
+
+
+### Передача вопроса Марии
+
+После предложения ИИ пользователь может проверить вопрос и явно подтвердить
+передачу через Telegram. Серверный endpoint: `/api/escalate`. Новые secrets:
+`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`; обязательный D1 binding:
+`ESCALATION_RATE_DB` — только счётчики частоты, без истории чата.
+Настройка и миграция: [docs/telegram-escalation.md](docs/telegram-escalation.md).
