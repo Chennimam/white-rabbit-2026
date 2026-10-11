@@ -3,3 +3,6 @@ node_modules/
 out/
 *.tsbuildinfo
 .DS_Store
+
+# Secrets must never be committed or exposed through client bundles.
+.env*

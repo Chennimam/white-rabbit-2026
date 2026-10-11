@@ -8,6 +8,7 @@ import { AboutMaria } from "@/components/AboutMaria";
 import { Pricing } from "@/components/Pricing";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 export default function Home() {
   return (
     <>
@@ -23,6 +24,7 @@ export default function Home() {
         <FinalCTA />
       </main>
       <Footer />
+      <ChatWidget />
     </>
   );
 }
