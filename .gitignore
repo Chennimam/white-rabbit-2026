@@ -6,3 +6,7 @@ out/
 
 # Secrets must never be committed or exposed through client bundles.
 .env*
+
+.dev.vars*
+.wrangler/
+functions/_generated/

@@ -44,3 +44,6 @@
 .chat-window[data-compact="true"] .chat-header { padding-block: 8px; }
 .chat-window[data-compact="true"] .chat-input { padding-block: 8px; }
 .chat-window[data-compact="true"] .chat-storage-note { padding-block: 4px; }
+
+/* Keep the input reachable when an error and the phone keyboard are both visible. */
+.chat-error { min-height: 44px; max-height: 30%; overflow-y: auto; flex-shrink: 1; overflow-wrap: anywhere; }

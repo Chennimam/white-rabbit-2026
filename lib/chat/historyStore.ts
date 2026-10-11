@@ -1,7 +1,7 @@
 import { MAX_HISTORY_MESSAGES, MAX_MESSAGE_LENGTH } from "./types";
 import type { ChatHistoryStore, ChatMessage } from "./types";
 
-export const HISTORY_KEY = "white-rabbit:chat:v1";
+export const HISTORY_KEY = "white-rabbit:chat:session:v2";
 
 export function parseHistory(raw: string | null): ChatMessage[] {
   if (!raw || raw.length > 2_000_000) return [];
@@ -26,9 +26,13 @@ export function parseHistory(raw: string | null): ChatMessage[] {
 
 // Browser-only access occurs inside methods, never at module initialization.
 // Swap this adapter for a session/database implementation without changing UI.
-export const localHistoryStore: ChatHistoryStore = {
-  async load() { return parseHistory(window.localStorage.getItem(HISTORY_KEY)); },
+export const sessionHistoryStore: ChatHistoryStore = {
+  async load() {
+    // Remove only the legacy demo history; never migrate it into a new session.
+    try { window.localStorage.removeItem("white-rabbit:chat:v1"); } catch { /* Storage may be disabled. */ }
+    return parseHistory(window.sessionStorage.getItem(HISTORY_KEY));
+  },
   async save(messages) {
-    window.localStorage.setItem(HISTORY_KEY, JSON.stringify(messages.filter((m) => m.role !== "system").slice(-MAX_HISTORY_MESSAGES)));
+    window.sessionStorage.setItem(HISTORY_KEY, JSON.stringify(messages.filter((m) => m.role !== "system").slice(-MAX_HISTORY_MESSAGES)));
   },
 };

@@ -124,3 +124,26 @@ SHA-256 исходной фотографии и файла проекта со�
 - Mobile 375/390/430 px: предусмотрены CSS ширина окна с отступами 12 px, safe-area, input 16 px, visualViewport и смещение launcher относительно CTA. **Визуальная проверка и отсутствие overflow в реальном браузере не подтверждены:** локальный Chrome завершился при запуске (SIGABRT/EPERM); инструмент браузера, использованный в прошлых проверках, в этой сессии недоступен. Не считать старые проверки лендинга проверкой нового чата.
 - Перед выпуском проверить в обычном браузере на 375/390/430 px и desktop: открытие/закрытие и Escape, Tab/Shift+Tab внутри модального окна, фокус после закрытия, доступность ввода с экранной клавиатурой, отсутствие пересечения launcher с CTA при прокрутке и отсутствие horizontal overflow. Проверить ответ mock и сохранение после перезагрузки.
 - GetCourse, даты, тарифы, тексты сайта, изображения и footer не изменены.
+
+
+## 2026-10-11: OpenAI / Pages Function
+
+- Серверные и UI тесты: 33, включая Responses request, server knowledge, JSON/role/body limits,
+  origin + endpoint host, kill switch, 429/auth/network/timeout, невалидный ответ, секреты,
+  retry, sessionStorage reload/new-session/storage-denied и текстовый вывод.
+- npm run lint, npm run build и компиляция Pages Function через Wrangler успешны.
+- Проверено отсутствие ASSISTANT_CONTEXT, системных инструкций и секретов в out.
+- Вёрстка лендинга/GetCourse не менялась. Для длинного fallback ограничена высота
+  error-блока, чтобы поле ввода оставалось доступным при клавиатуре.
+- JSDOM проверяет реакцию на visualViewport и управление фокусом, но не реальный layout.
+  Визуальную проверку 375/390/430 px и desktop в этой среде выполнить не удалось:
+  browser automation недоступна. Она остаётся пунктом приёмки после deploy.
+- Wrangler компилирует Worker, но локальный dev server в этой среде остановился
+  из-за EMFILE файловых наблюдателей и ограничений записи в системный каталог Wrangler.
+  Runtime smoke test здесь не подтверждён.
+- Реальный OpenAI запрос и production deployment не проверены: секрет задаётся
+  владельцем вручную в Cloudflare. Все API-тесты используют подставные HTTP ответы.
+- Build сохраняет прежнее предупреждение metadataBase (без NEXT_PUBLIC_SITE_URL).
+- npm audit сообщает 5 high записей в существующей цепочке ESLint/fast-glob/braces,
+  fixAvailable:false; это dev tooling, не клиентский/Pages runtime. Автообновление
+  с breaking changes не выполнялось.

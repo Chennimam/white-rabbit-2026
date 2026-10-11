@@ -3,7 +3,7 @@ import { afterEach, test } from "node:test";
 import { JSDOM } from "jsdom";
 import { createElement } from "react";
 import { sendMessage } from "../lib/chat/chatClient";
-import { parseHistory } from "../lib/chat/historyStore";
+import { parseHistory, sessionHistoryStore, HISTORY_KEY } from "../lib/chat/historyStore";
 import type { ChatHistoryStore, ChatMessage } from "../lib/chat/types";
 
 const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "https://example.test" });
@@ -23,11 +23,49 @@ function memoryStore(seed: ChatMessage[] = []) {
 }
 const flush = () => act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
 
-test("mock returns exactly the promised text without network", async () => {
+test("client posts bounded history to /api/chat and strips private/UI fields", async () => {
   const original = globalThis.fetch;
-  globalThis.fetch = () => { throw new Error("Unexpected network request"); };
-  try { assert.equal(await sendMessage([user]), "Ассистент скоро появится здесь."); }
+  globalThis.fetch = async (url, init) => {
+    assert.equal(url, "/api/chat");
+    assert.equal(init?.method, "POST");
+    const body = JSON.parse(init!.body as string);
+    assert.equal(body.messages.length, 5);
+    assert.equal(body.messages.at(-1).content, "x".repeat(4000));
+    assert.deepEqual(Object.keys(body.messages[0]), ["role", "content"]);
+    return Response.json({ reply: "Настоящий ответ" });
+  };
+  try { assert.equal(await sendMessage([{ ...user, role: "system" }, ...Array(30).fill({ ...user, content: "x".repeat(4000) })]), "Настоящий ответ"); }
   finally { globalThis.fetch = original; }
+});
+
+test("client errors on non-JSON, missing reply and backend errors without leaking detail", async () => {
+  const original = globalThis.fetch;
+  try {
+    for (const response of [new Response("secret", { status: 503 }), Response.json({}), new Response("broken")]) {
+      globalThis.fetch = async () => response;
+      await assert.rejects(sendMessage([user]), { message: "temporarily_unavailable" });
+    }
+  } finally { globalThis.fetch = original; }
+});
+
+test("session history survives remount, new session is empty, legacy local history removed", async () => {
+  window.localStorage.setItem("white-rabbit:chat:v1", JSON.stringify([user]));
+  window.sessionStorage.clear();
+  assert.deepEqual(await sessionHistoryStore.load(), []);
+  assert.equal(window.localStorage.getItem("white-rabbit:chat:v1"), null);
+  await sessionHistoryStore.save([user, assistant]);
+  const first = renderHook(() => useChat(sendMessage, sessionHistoryStore));
+  await flush(); first.unmount();
+  const second = renderHook(() => useChat(sendMessage, sessionHistoryStore));
+  await flush();
+  assert.deepEqual(second.result.current.messages, [user, assistant]);
+  second.unmount();
+  assert.ok(window.sessionStorage.getItem(HISTORY_KEY));
+  const originalWindow = globalThis.window;
+  const fresh = new JSDOM("", { url: "https://example.test" });
+  Object.assign(globalThis, { window: fresh.window });
+  try { assert.deepEqual(await sessionHistoryStore.load(), []); }
+  finally { Object.assign(globalThis, { window: originalWindow }); fresh.window.close(); }
 });
 
 test("corrupt storage, duplicates, system roles and oversized input are rejected", () => {
@@ -83,7 +121,7 @@ test("error and retry preserve one user message and recover", async () => {
   assert.equal(result.current.messages.at(-1)?.content, "Получилось");
 });
 
-test("denied localStorage does not prevent chat use", async () => {
+test("denied sessionStorage does not prevent chat use", async () => {
   const store: ChatHistoryStore = { async load() { throw new Error("Denied"); }, async save() { throw new Error("Quota"); } };
   const transport = async () => "Ответ";
   const { result } = renderHook(() => useChat(transport, store));

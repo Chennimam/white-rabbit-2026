@@ -42,18 +42,18 @@ export function ChatWindow({ chat, onClose }: { chat: ReturnType<typeof useChat>
       aria-describedby="guide-description" onCancel={(event) => { event.preventDefault(); onClose(); }}>
       <header className="chat-header">
         <KeyRound size={22} aria-hidden="true" />
-        <div><h2 id="guide-title">Проводник</h2><p id="guide-description">Демо-чат · ИИ ещё не подключён</p></div>
+        <div><h2 id="guide-title">Проводник</h2><p id="guide-description">О мистерии и участии</p></div>
         <button ref={closeButton} type="button" onClick={onClose} aria-label="Закрыть чат"><X aria-hidden="true" /></button>
       </header>
       <ChatMessageList messages={chat.messages} status={chat.status} />
       {chat.status === "error" && <div className="chat-error" role="alert">
-        <p>Не удалось получить ответ. Попробуйте ещё раз.</p>
+        <p>Проводник сейчас немного задерживается. Попробуйте ещё раз через минуту. Если вопрос срочный, напишите Марии в Telegram: @Mariucha.</p>
         <button type="button" onClick={chat.retry}>Повторить</button>
       </div>}
       {chat.storageUnavailable && <p className="chat-storage-note" role="status">История доступна до перезагрузки: браузер не разрешил её сохранить.</p>}
       <ChatInput value={chat.draft} onChange={chat.setDraft} onSend={chat.send}
         disabled={!chat.ready || waiting} inputRef={input} />
-      <p className="chat-privacy">{chat.storageUnavailable ? "Сообщения остаются только в этой вкладке." : "История хранится только в этом браузере."}</p>
+      <p className="chat-privacy">История — на время этой вкладки. Сообщения передаются ИИ для ответа.</p>
     </dialog>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { sendMessage } from "./chatClient";
-import { localHistoryStore } from "./historyStore";
+import { sessionHistoryStore } from "./historyStore";
 import { MAX_HISTORY_MESSAGES, MAX_MESSAGE_LENGTH } from "./types";
 import type { ChatHistoryStore, ChatMessage, ChatStatus, ChatTransport } from "./types";
 
@@ -13,7 +13,7 @@ function message(role: "user" | "assistant", content: string): ChatMessage {
   return { id: crypto.randomUUID(), role, content, createdAt: Date.now() };
 }
 
-export function useChat(transport: ChatTransport = sendMessage, store: ChatHistoryStore = localHistoryStore) {
+export function useChat(transport: ChatTransport = sendMessage, store: ChatHistoryStore = sessionHistoryStore) {
   const [messages, setMessages] = useState<ChatMessage[]>([greeting]);
   const [status, setStatus] = useState<ChatStatus>("idle");
   const [draft, setDraft] = useState("");

@@ -77,8 +77,20 @@ Hero имеет отдельную мобильную композицию. Дв
 - `ASSETS.md` — происхождение и промпты изображений.
 - `TESTING.md` — результаты проверки.
 
-## Чат «Проводник»
+## AI Проводник
 
-Добавлен mock-чат с приветствием, историей в localStorage и ответом «Ассистент скоро появится здесь.». Настоящий AI и `/api/chat` не подключены. Архитектура, контракт будущего endpoint и требования к серверным секретам описаны в `docs/chat-architecture.md`.
+Чат обращается к `POST /api/chat` через Cloudflare Pages Function (`functions/api/chat.ts`),
+которая использует OpenAI Responses API. История хранится в sessionStorage текущей вкладки.
+Знания — `knowledge/white-rabbit-assistant-context.md`; build собирает их в серверный модуль.
+После изменения Markdown: commit/push и новый Pages deployment.
 
-Проверки логики: `npm run test:chat`. Используйте `npm run dev` или сборку из `out/` через HTTP для проверки интерактивного чата. Старый автономный HTML-preview предназначен для просмотра дизайна и не содержит React-логику чата.
+В Cloudflare нужны Secret `OPENAI_API_KEY` и variables `OPENAI_MODEL`, `ALLOWED_ORIGINS`,
+`AI_CHAT_ENABLED`. Без включения и ключа показывается fallback. Для отключения задайте
+`AI_CHAT_ENABLED=false` и redeploy. Ключ не помещать в GitHub, frontend или чат.
+
+Проверки: `npm run test:chat`, `npm run lint`, `npm run build`, `npm run check:functions`.
+Локальный полный сайт: после build — `npm run dev:pages` (Wrangler + `.dev.vars`).
+Next dev и старый автономный HTML-preview не обслуживают серверный endpoint.
+
+Настройки Cloudflare, rate limiting, приватность и первый тест:
+[docs/chat-architecture.md](docs/chat-architecture.md).
