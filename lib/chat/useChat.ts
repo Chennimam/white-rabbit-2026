@@ -77,8 +77,8 @@ export function useChat(transport: ChatTransport = sendMessage, store: ChatHisto
     }
   }, [ready, transport]);
 
-  const send = () => {
-    const content = draft.trim();
+  const send = (suggested?: string) => {
+    const content = (suggested ?? draft).trim();
     if (!ready || busy.current || !content || content.length > MAX_MESSAGE_LENGTH) return;
     const history = [...messages, message("user", content)].slice(-MAX_HISTORY_MESSAGES);
     setMessages(history);

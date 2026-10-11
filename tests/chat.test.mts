@@ -23,28 +23,13 @@ function memoryStore(seed: ChatMessage[] = []) {
 }
 const flush = () => act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
 
-test("client posts bounded history to /api/chat and strips private/UI fields", async () => {
+test("local chat adapter answers without fetch and rejects invalid input", async () => {
   const original = globalThis.fetch;
-  globalThis.fetch = async (url, init) => {
-    assert.equal(url, "/api/chat");
-    assert.equal(init?.method, "POST");
-    const body = JSON.parse(init!.body as string);
-    assert.equal(body.messages.length, 5);
-    assert.equal(body.messages.at(-1).content, "x".repeat(4000));
-    assert.deepEqual(Object.keys(body.messages[0]), ["role", "content"]);
-    return Response.json({ reply: "Настоящий ответ" });
-  };
-  try { assert.equal(await sendMessage([{ ...user, role: "system" }, ...Array(30).fill({ ...user, content: "x".repeat(4000) })]), "Настоящий ответ"); }
-  finally { globalThis.fetch = original; }
-});
-
-test("client errors on non-JSON, missing reply and backend errors without leaking detail", async () => {
-  const original = globalThis.fetch;
+  globalThis.fetch = async () => { assert.fail("Unexpected network call"); };
   try {
-    for (const response of [new Response("secret", { status: 503 }), Response.json({}), new Response("broken")]) {
-      globalThis.fetch = async () => response;
-      await assert.rejects(sendMessage([user]), { message: "temporarily_unavailable" });
-    }
+    assert.ok((await sendMessage([user])).includes("20 декабря"));
+    await assert.rejects(sendMessage([]), /invalid_request/);
+    await assert.rejects(sendMessage([{ ...user, content: "x".repeat(4001) }]), /invalid_request/);
   } finally { globalThis.fetch = original; }
 });
 
@@ -133,7 +118,7 @@ test("denied sessionStorage does not prevent chat use", async () => {
   assert.equal(result.current.messages.at(-1)?.content, "Ответ");
 });
 
-test("model output is text, not executable HTML; system messages remain invisible", () => {
+test("message output is text, not executable HTML; system messages remain invisible", () => {
   const output = '<img src=x onerror="alert(1)"><script>alert(1)</script>';
   const { container } = render(createElement(ChatMessageList, { messages: [
     { ...assistant, content: output }, { id: "s", role: "system", content: "Server instructions", createdAt: 0 },
@@ -237,4 +222,29 @@ test("escalation failure shows safe fallback and cancellation revokes consent", 
     fireEvent.click(view.getByRole("button", { name: "Передать Марии" }));
     assert.equal((view.getByRole("checkbox") as HTMLInputElement).checked, false);
   } finally { globalThis.fetch = original; }
+});
+
+
+test("welcome quick actions submit user messages; unknown answer offers Telegram consent UI", async () => {
+  const { ChatWindow } = await import("../components/chat/ChatWindow");
+  const { UNKNOWN_REPLY } = await import("../lib/chat/scenarios");
+  const submitted: string[] = [];
+  const chat = { messages: [{ ...assistant, id: "welcome", content: "Привет, чем я могу тебе помочь?" }],
+    status: "idle" as const, draft: "", setDraft: () => {}, ready: true,
+    storageUnavailable: false, send: (text?: string) => { if (text) submitted.push(text); }, retry: () => {} };
+  const view = render(createElement(ChatWindow, { chat, onClose: () => {} }));
+  fireEvent.click(view.getByRole("button", { name: "Даты" }));
+  assert.deepEqual(submitted, ["Какие даты мероприятия?"]);
+  view.rerender(createElement(ChatWindow, { chat: { ...chat, messages: [user, { ...assistant, content: UNKNOWN_REPLY }] }, onClose: () => {} }));
+  assert.equal(view.queryByRole("button", { name: "Даты" }), null);
+  assert.ok(view.getByRole("button", { name: "Передать Марии" }));
+});
+
+test("quick send is recorded as an ordinary user message", async () => {
+  const memory = memoryStore();
+  const { result } = renderHook(() => useChat(sendMessage, memory.store));
+  await flush();
+  await act(async () => result.current.send("Сколько стоит участие?"));
+  assert.equal(result.current.messages.at(-2)?.content, "Сколько стоит участие?");
+  assert.ok(result.current.messages.at(-1)?.content.includes("5 500"));
 });

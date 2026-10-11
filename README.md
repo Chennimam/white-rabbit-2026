@@ -77,29 +77,25 @@ Hero имеет отдельную мобильную композицию. Дв
 - `ASSETS.md` — происхождение и промпты изображений.
 - `TESTING.md` — результаты проверки.
 
-## AI Проводник
+## Проводник
 
-Чат обращается к `POST /api/chat` через Cloudflare Pages Function (`functions/api/chat.ts`),
-которая использует OpenAI Responses API. История хранится в sessionStorage текущей вкладки.
-Знания — `knowledge/white-rabbit-assistant-context.md`; build собирает их в серверный модуль.
-После изменения Markdown: commit/push и новый Pages deployment.
+Это бесплатный сценарный ассистент без внешнего AI API.
+Он отвечает на типовые вопросы по заранее определённым сценариям локально в браузере.
+OpenAI runtime и `/api/chat` удалены. История остаётся в sessionStorage текущей вкладки.
 
-В Cloudflare нужны Secret `OPENAI_API_KEY` и variables `OPENAI_MODEL`, `ALLOWED_ORIGINS`,
-`AI_CHAT_ENABLED`. Без включения и ключа показывается fallback. Для отключения задайте
-`AI_CHAT_ENABLED=false` и redeploy. Ключ не помещать в GitHub, frontend или чат.
+Источник истины: `knowledge/white-rabbit-assistant-context.md`. Ответы находятся в
+`lib/chat/scenarios.ts`, распознавание и короткие уточнения — в `lib/chat/scenarioEngine.ts`.
+При изменении knowledge тест требует пересмотреть ответы и обновить hash проверенной версии.
+
+Нестандартные вопросы предлагается передать Марии через прежний `/api/escalate`:
+только после просмотра текста и явного согласия, с необязательными контекстом и username.
+Сохраняются `ALLOWED_ORIGINS`, secrets `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`
+и D1 binding `ESCALATION_RATE_DB` (только счётчики частоты, без переписки).
+После deployment можно удалить `OPENAI_API_KEY`, `OPENAI_MODEL`, `AI_CHAT_ENABLED`.
 
 Проверки: `npm run test:chat`, `npm run lint`, `npm run build`, `npm run check:functions`.
-Локальный полный сайт: после build — `npm run dev:pages` (Wrangler + `.dev.vars`).
-Next dev и старый автономный HTML-preview не обслуживают серверный endpoint.
+Локальные ответы работают через `npm run dev`; для Telegram Function — build, затем
+`npm run dev:pages` с настроенными bindings. Старый автономный HTML-preview не содержит чат.
 
-Настройки Cloudflare, rate limiting, приватность и первый тест:
-[docs/chat-architecture.md](docs/chat-architecture.md).
-
-
-### Передача вопроса Марии
-
-После предложения ИИ пользователь может проверить вопрос и явно подтвердить
-передачу через Telegram. Серверный endpoint: `/api/escalate`. Новые secrets:
-`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`; обязательный D1 binding:
-`ESCALATION_RATE_DB` — только счётчики частоты, без истории чата.
-Настройка и миграция: [docs/telegram-escalation.md](docs/telegram-escalation.md).
+[Архитектура и миграция](docs/chat-architecture.md) ·
+[Настройка Telegram](docs/telegram-escalation.md).

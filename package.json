@@ -4,14 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "npm run build:context && next build --webpack && node scripts/check-chat-boundary.mjs",
+    "build": "next build --webpack && node scripts/check-chat-boundary.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:chat": "npm run build:context && tsx --test tests/*.test.mts",
-    "build:context": "node scripts/build-assistant-context.mjs",
+    "test:chat": "tsx --test tests/*.test.mts",
     "dev:pages": "wrangler pages dev out --port 8788",
-    "check:functions": "npm run build:context && wrangler pages functions build functions --outfile .wrangler/guide-worker.js"
+    "check:functions": "wrangler pages functions build functions --outfile .wrangler/guide-worker.js"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.0",

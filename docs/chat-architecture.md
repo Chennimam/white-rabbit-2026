@@ -1,147 +1,109 @@
-# AI «Проводник»: запуск и архитектура
+# «Проводник»: бесплатный сценарный чат
 
-Статический Next.js export сохранён. ChatWidget → useChat → chatClient.sendMessage →
-POST /api/chat → Cloudflare Pages Function → OpenAI Responses API → {reply}.
-GetCourse, изображения, тексты лендинга, CTA и footer не изменены.
+## Текущая архитектура
 
-## Файлы и контракт
+OpenAI отключён и больше не используется. Нет внешнего AI API, embeddings, NLP-сервисов,
+платных model calls или серверной генерации ответов.
+ChatWidget → useChat → chatClient (локальный адаптер) → scenarioEngine → готовый ответ.
+Сценарные ответы бесплатны и работают локально после загрузки сайта.
+Telegram и Cloudflare остаются внешними сервисами со своими тарифами/квотами.
 
-- functions/api/chat.ts — HTTP endpoint, без Next API routes.
-- functions/_lib/guide.ts — серверные инструкции.
-- knowledge/white-rabbit-assistant-context.md — единственный источник фактов.
-- scripts/build-assistant-context.mjs перед build создаёт functions/_generated/assistantContext.ts:
-  ASSISTANT_CONTEXT и SHA-256 KNOWLEDGE_VERSION. Модуль не импортируется клиентом,
-  не копируется в out и игнорируется Git. Отсутствующий/пустой Markdown останавливает build.
-- public/_routes.json ограничивает запуск Functions маршрутом /api/chat.
-- lib/chat/chatClient.ts — адаптер запроса; UI не знает провайдера.
+Удалены functions/api/chat.ts, functions/_lib/guide.ts, scripts/build-assistant-context.mjs
+и API-тесты OpenAI. /api/chat больше не зарегистрирован в Pages Functions и не вызывается
+клиентом. На статическом хостинге неизвестный URL может вернуть HTML/404, но model runtime
+за ним отсутствует. SDK OpenAI в проекте не было. История реализации сохранена в Git:
+[предыдущая AI-архитектура](https://github.com/Chennimam/white-rabbit-2026/blob/9ee109c8c39fe06094f9a6edc2ba117dccf5df55/docs/chat-architecture.md).
 
-Запрос: {"messages":[{"role":"user","content":"Нужно ли быть на обеих встречах?"}]}.
-Успех: {"reply":"..."}. Ошибка: {"error":"invalid_request"} (400), forbidden (403),
-method_not_allowed (405), rate_limited (429), temporarily_unavailable (503).
-UI показывает сообщение с @Mariucha и «Повторить», сохраняя вопрос.
+## Сценарии и knowledge
 
-Сервер проверяет POST, application/json, JSON, roles user/assistant, непустой строковый content,
-последнее сообщение user. System/developer отклоняются; в OpenAI уходят только role/content.
-Лимиты: 20 сообщений, 4000 символов на сообщение, 20000 суммарно, 128000 байт тела
-(проверяется поток, а не только Content-Length). Клиент обрезает старую историю.
-Таймаут OpenAI 25 секунд, клиент 28, UI 30. Неполные/некорректные ответы отклоняются.
-Ошибки провайдера/ключи не возвращаются; Cache-Control: no-store.
+Источник истины — knowledge/white-rabbit-assistant-context.md.
+lib/chat/scenarios.ts содержит вручную проверенные ответы, intents, quick actions и hash
+проверенной версии knowledge. Markdown не парсится при отправке сообщения и не загружается
+в браузер целиком.
 
-Origin обязателен: точное совпадение ALLOWED_ORIGINS, без *. Также проверяется origin
-URL endpoint — можно закрыть pages.dev при использовании защищённого custom domain.
-OPTIONS разрешает POST/Content-Type. Origin не аутентифицирует внешние HTTP-клиенты:
-они могут подделать заголовок, поэтому нужен rate limiting.
+lib/chat/scenarioEngine.ts экспортирует getScenarioReply(messages):
+{reply, intent, confidence, escalate}.
+Распознавание: lowercase, Unicode normalization, ё→е, пунктуация/пробелы, группы регулярных
+выражений со словоформами и ограниченная коррекция одной опечатки в небольшом словаре.
+Все группы правила должны совпасть; частичный match ниже 0.55 не принимается.
+Confidence — оценка правил, а не статистическая вероятность.
+Приоритет: вопросы для Марии и неизвестные подробности, затем FAQ.
+Это ограниченный сценарный движок: произвольные формулировки и сложные вопросы могут
+не распознаться; для них предлагается уточнение у Марии без придумывания ответа.
 
-HTTPS POST https://api.openai.com/v1/responses использует instructions с серверным контекстом,
-store:false, max_output_tokens:800, модель OPENAI_MODEL (по умолчанию gpt-4.1-mini).
-Нет tools, Conversations, previous_response_id, фоновых вызовов, веб-поиска, БД.
-Приветствие локальное. Ответы выводятся как текст без HTML.
-[OpenAI text generation](https://developers.openai.com/api/docs/guides/text),
-[модель](https://developers.openai.com/api/docs/models/gpt-4.1-mini).
+Сохраняются последние четыре сообщения для простого контекста: «а второй?» после тарифов,
+«а 24-го?» после дат, «а запись?», «а можно потом?» после вопроса об оплате/записи.
+Системные сообщения не используются. История не отправляется на сервер для ответов.
 
-## История и приватность
+Приветствие прежнее: «Привет, чем я могу тебе помочь?».
+Быстрые кнопки Даты / Тарифы / Что будет происходить / Нужно ли знать Таро / Оплата /
+Передать Марии отправляют обычные пользовательские сообщения.
+UI, sessionStorage, мобильная логика, Escape, focus, keyboard navigation и error/retry
+сохранены. Loading остаётся состоянием UI, но локальный ответ обычно мгновенный.
 
-sessionStorage текущей вкладки хранит до 100 сообщений UI. Refresh сохраняет историю;
-новая независимая сессия её не получает. Восстановление/дублирование вкладок браузером
-может восстанавливать sessionStorage. Старый localStorage demo-ключ удаляется без переноса.
-Если storage запрещён, чат работает в памяти до refresh. Ограниченная история каждого
-запроса передаётся серверу и OpenAI. Нет server sessions, KV/D1, БД и логирования вопросов,
-ответов или ключей в приложении. Не включайте логирование request body в Cloudflare.
-store:false отключает сохранение Responses для повторного получения, но не гарантирует
-нулевое хранение у провайдеров: [OpenAI data controls](https://developers.openai.com/api/docs/guides/your-data).
+## Обновление знаний
+
+1. Изменить knowledge-файл и проверить факты.
+2. Обновить ответы в lib/chat/scenarios.ts и соответствующие правила при необходимости.
+3. Обновить KNOWLEDGE_REVIEW_HASH после ручной проверки (SHA-256 исходного Markdown).
+4. Выполнить npm run test:chat, lint, build, check:functions; commit/push и новый deploy.
+
+Тест проверяет основные даты, суммы 5500/8000, @Mariucha и hash всей проверенной версии.
+Изменение любой части knowledge явно сигнализирует о необходимости пересмотреть сценарии.
+Файл knowledge сохранён без изменения.
+
+## Telegram escalation и приватность
+
+Нестандартный вопрос → предложение передачи → форма просмотра → checkbox согласия →
+POST /api/escalate → server-side Telegram Bot API.
+Для unknown используется отдельный честный fallback, который также открывает действие
+«Передать Марии». Ответ движка сам по себе ничего не отправляет.
+
+История остаётся только в sessionStorage вкладки. Refresh сохраняет её; новая независимая
+сессия начинает заново. Восстановление/дублирование вкладок зависит от браузера.
+При запрете storage чат работает в памяти. Нет server chat history, chat database,
+аналитики содержания сообщений или автоматической пересылки полной истории.
+
+Telegram получает лишь проверенный пользователем вопрос, необязательный краткий контекст
+и добровольно указанный @username. D1 хранит только счётчики rate limiting.
+Серверные секреты и Telegram-логика остаются на сервере.
+Подробности: [Telegram escalation](telegram-escalation.md).
 
 ## Cloudflare
 
-Открыть **Workers & Pages → white-rabbit-2026 → Settings → Variables and Secrets → Add**,
-окружение Production (Preview отдельно).
+После успешного deployment новой версии можно удалить:
+- OPENAI_API_KEY;
+- OPENAI_MODEL;
+- AI_CHAT_ENABLED.
 
-| Имя | Тип | Значение |
-| --- | --- | --- |
-| OPENAI_API_KEY | Secret / Encrypt | Ваш ключ OpenAI API; вставить только в Cloudflare |
-| OPENAI_MODEL | Text | gpt-4.1-mini |
-| AI_CHAT_ENABLED | Text | true (false отключает) |
-| ALLOWED_ORIGINS | Text | https://white-rabbit-2026.pages.dev,https://rabbit.logos-journey.com |
+Оставить:
+- ALLOWED_ORIGINS — точные origins, разрешённые для /api/escalate;
+- TELEGRAM_BOT_TOKEN — Secret / Encrypt;
+- TELEGRAM_CHAT_ID — Secret / Encrypt;
+- ESCALATION_RATE_DB — D1 binding со схемой migrations/escalation-limits.sql.
 
-Указывать только реально используемые origins без завершающего /. Для WAF на custom domain
-оставить только https://rabbit.logos-journey.com (см. ниже).
-Не использовать NEXT_PUBLIC_ для ключа, не присылать его в чат и не коммитить.
-
-Build command npm run build, output out, branch main, root — корень этого репозитория
-(package.json и functions/). Нужна Git-интеграция Pages либо Wrangler deployment из корня:
-загрузка только out через drag-and-drop не включает исходники Functions.
-После настройки vars/secrets выполнить новый deploy: Deployments → Retry deployment для
-нужного main commit. Проверить сборку Pages Function в журнале.
-[Cloudflare variables and secrets](https://developers.cloudflare.com/pages/functions/bindings/).
-
-Kill switch: AI_CHAT_ENABLED=false и redeploy отключают API без изменения кода.
-Это не мгновенная смена конфигурации уже работающего deployment. Для немедленного отключения
-заблокировать /api/chat через WAF; сайт и GetCourse остаются доступны.
-
-## Rate limiting перед публичным запуском
-
-Частотный лимит в аккаунте Cloudflare ещё не настроен. Лимиты тела/истории/таймаута
-не заменяют его. Нет счётчика Map, который терял бы состояние между инстансами.
-
-Для custom domain в зоне logos-journey.com:
-Security → Security rules → Create rule → Rate limiting rules.
-Условия: hostname rabbit.logos-journey.com, URI Path equals /api/chat, method POST.
-Счётчик IP; ориентир 10 запросов за 60 секунд, Block на 60 секунд (доступные интервалы
-зависят от тарифа). Если доступен custom response: 429, application/json,
-{"error":"rate_limited"}. Нажать Deploy.
-[Cloudflare WAF](https://developers.cloudflare.com/waf/rate-limiting-rules/create-zone-dashboard/).
-
-Zone WAF не защищает pages.dev. При запуске только custom domain удалите pages.dev из
-ALLOWED_ORIGINS — endpoint проверяет и собственный hostname. Не включайте публичный
-pages.dev AI без отдельной защиты частоты.
-Предусмотрен серверный адаптер CHAT_RATE_LIMITER.limit({key:ip}) для будущего распределённого
-лимитера: до OpenAI, отказ 429, сбой 503. Он ещё не подключён к реальному Pages binding;
-потребуется совместимый сервис/Worker. Для текущего запуска используйте WAF.
-Будущий Turnstile проверяется до OpenAI. Настройте бюджет/уведомления OpenAI проекта.
+Новые secrets/variables не требуются. Pages: branch main, build npm run build, output out.
+public/_routes.json содержит только /api/escalate. Для изменений bindings/secrets нужен
+новый deployment. При отсутствии Telegram-настроек локальные ответы работают,
+а подтверждённая отправка показывает безопасный fallback.
+После удаления AI secrets откат на старый AI commit потребует повторной настройки;
+рекомендуется откатываться на сценарную версию.
 
 ## Локальная проверка
 
-```sh
 npm ci
 npm run test:chat
 npm run lint
 npm run build
 npm run check:functions
-npm run dev:pages
-```
 
-Wrangler установлен как devDependency. dev:pages обслуживает out + functions на
-http://localhost:8788. После изменения клиента пересобрать out.
-next dev, обычный static server и старый автономный HTML-preview не предоставляют /api/chat.
+Node 22.13+ / 24+ нужен для тестов SQLite. npm run dev подходит для локальных ответов,
+а npm run dev:pages после build — для сайта с Telegram Function.
+Для Telegram setup и локального D1 см. отдельную инструкцию.
+Build проверяет отсутствие OpenAI runtime URL/config, /api/chat и Telegram secrets/API URL
+в frontend bundle. Все Telegram HTTP вызовы в тестах подменяются.
 
-Локально создать .dev.vars в корне (уже игнорируется вместе с .env*):
-```dotenv
-OPENAI_API_KEY="REPLACE_LOCALLY_ONLY"
-OPENAI_MODEL="gpt-4.1-mini"
-AI_CHAT_ENABLED="false"
-ALLOWED_ORIGINS="http://localhost:8788,http://127.0.0.1:8788"
-```
-Сначала false для проверки fallback без расходов. Для реального вызова ключ вставляется
-только в этот файл и включается true. Не добавлять файл в Git.
-[Cloudflare local development](https://developers.cloudflare.com/pages/functions/local-development/).
-
-## Первый безопасный тест после deployment
-
-1. Открыть разрешённый домен: приветствие не делает вызов OpenAI.
-2. «Нужно ли участвовать в обе даты?» — ожидается выбор одной даты.
-3. «Можно индивидуальную скидку?» — ожидается направление к @Mariucha.
-4. Уточнить предыдущий вопрос: история передаётся в рамках сессии.
-5. Refresh сохраняет диалог; новая независимая приватная сессия начинает с приветствия.
-6. В Network: POST /api/chat → 200, только {reply}, без ключа/системных инструкций.
-7. Проверить desktop и 375/390/430 px, клавиатуру, Escape, фокус, loading/error/retry.
-8. В тестовом окружении false + redeploy должен показать fallback без вызова OpenAI.
-
-Для обновления знаний изменить Markdown, проверить факты, выполнить проверки, commit/push main
-и дождаться нового Pages deploy. Build автоматически обновляет контекст и его hash.
-
-
-## Telegram escalation
-
-Для вопросов, направляемых knowledge к Марии, добавлено предложение передачи и
-отдельный POST /api/escalate. Telegram вызывается только после просмотра вопроса
-и явного подтверждения. Нужны два Telegram secrets и D1 binding для счётчиков
-частоты (без хранения переписки). Подробно: [Telegram escalation](telegram-escalation.md).
+После deployment проверить: типовые вопросы, короткое уточнение про второй тариф,
+unknown → действие передачи без автоматического запроса, sessionStorage после refresh.
+В Network при обычном общении нет POST /api/chat и внешних model calls.
+Проверить quick buttons на 375/390/430 px и desktop, доступность ввода с клавиатурой.

@@ -1,14 +1,13 @@
 # Telegram escalation
 
-Добавлено поверх commit 18790e815e9de48c159cbd04fde268aa1fb9fcd6.
-Knowledge-файл, OpenAI transport/model, GetCourse и остальная страница не изменены.
+Изначально добавлено поверх commit 18790e815e9de48c159cbd04fde268aa1fb9fcd6.
+После миграции на сценарного «Проводника» Telegram endpoint, consent, D1 rate limiting
+и secrets сохранены. OpenAI и /api/chat удалены; предложение передачи формируется локально.
 
 ## Сценарий и согласие
 
-Серверная инструкция направляет модель вернуть [[ESCALATE_TO_MARIA]], когда knowledge
-требует обращения к Марии. /api/chat заменяет маркер фиксированным приглашением:
-«Этот вопрос лучше уточнить у Марии. Хотите, я передам ей ваш вопрос?».
-Контракт {reply} прежний. Этот этап никогда не вызывает Telegram.
+scenarioEngine распознаёт тему для Марии или unknown и возвращает готовое предложение
+передачи. Клиент показывает действие. Этот этап никогда не вызывает Telegram.
 
 Действие «Передать Марии» открывает форму просмотра вопроса. Пользователь может уточнить
 вопрос, добавить краткий релевантный контекст (необязательно) и Telegram username
@@ -86,7 +85,7 @@ SQL использует bind-параметры и атомарный UPSERT RE
    variable name **ESCALATION_RATE_DB**, выбрать созданную БД.
    Production и Preview настраиваются отдельно.
 6. Выполните новый deployment ветки main. Build npm run build, output out.
-   В public/_routes.json уже включены /api/chat и /api/escalate.
+   В public/_routes.json включён только /api/escalate.
    [Cloudflare bindings](https://developers.cloudflare.com/pages/functions/bindings/).
 7. На сайте спросите об изменении даты после оплаты. До подтверждения не должно быть
    запросов к /api/escalate и сообщений у бота. Нажмите «Передать Марии», проверьте
@@ -94,9 +93,9 @@ SQL использует bind-параметры и атомарный UPSERT RE
    В Network ожидается 200 {"ok":true}, у Марии — одно сообщение без полной истории.
    Это реальная отправка: используйте явно обозначенный тестовый вопрос.
 
-Без новых секретов и D1 AI-чат продолжает работать, но отправка показывает fallback.
+Без Telegram secrets и D1 сценарный чат продолжает работать, но отправка показывает fallback.
 Для отключения передачи уберите Telegram binding/secret и redeploy; экстренно
-можно заблокировать /api/escalate через WAF. AI_CHAT_ENABLED управляет только /api/chat.
+можно заблокировать /api/escalate через WAF. OPENAI_API_KEY, OPENAI_MODEL и AI_CHAT_ENABLED больше не используются и могут быть удалены после deployment.
 
 ## Локально и проверки
 
@@ -118,5 +117,5 @@ npm run dev:pages -- --d1 ESCALATION_RATE_DB
 Тесты требуют Node с node:sqlite (22.13+ или 24+):
 npm run test:chat; npm run lint; npm run build; npm run check:functions.
 Build дополнительно проверяет отсутствие Telegram token/chat ID конфигурации, API URL,
-OpenAI key и серверного knowledge-модуля в frontend bundle.
+OpenAI runtime/config и старого /api/chat в frontend bundle.
 Внешний runtime-тест требует настройки Cloudflare владельцем.

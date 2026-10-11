@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { KeyRound, X } from "lucide-react";
 import type { useChat } from "@/lib/chat/useChat";
+import { UNKNOWN_REPLY, quickActions } from "@/lib/chat/scenarios";
 import { ESCALATION_OFFER } from "@/lib/chat/escalation";
 import { ChatEscalation } from "./ChatEscalation";
 import { ChatInput } from "./ChatInput";
@@ -50,7 +51,11 @@ export function ChatWindow({ chat, onClose }: { chat: ReturnType<typeof useChat>
         <button ref={closeButton} type="button" onClick={onClose} aria-label="Закрыть чат"><X aria-hidden="true" /></button>
       </header>
       <ChatMessageList messages={chat.messages} status={chat.status} />
-      {last?.role === "assistant" && last.content === ESCALATION_OFFER && question &&
+      {!chat.messages.some((m) => m.role === "user") && <div className="chat-quick-actions" aria-label="Быстрые вопросы">
+        {quickActions.map((action) => <button key={action.label} type="button" disabled={!chat.ready || waiting}
+          onClick={() => chat.send(action.message)}>{action.label}</button>)}
+      </div>}
+      {last?.role === "assistant" && [ESCALATION_OFFER, UNKNOWN_REPLY].includes(last.content) && question &&
         <ChatEscalation key={last.id} question={question.content} />}
       {chat.status === "error" && <div className="chat-error" role="alert">
         <p>Проводник сейчас немного задерживается. Попробуйте ещё раз через минуту. Если вопрос срочный, напишите Марии в Telegram: @Mariucha.</p>
@@ -59,7 +64,7 @@ export function ChatWindow({ chat, onClose }: { chat: ReturnType<typeof useChat>
       {chat.storageUnavailable && <p className="chat-storage-note" role="status">История доступна до перезагрузки: браузер не разрешил её сохранить.</p>}
       <ChatInput value={chat.draft} onChange={chat.setDraft} onSend={chat.send}
         disabled={!chat.ready || waiting} inputRef={input} />
-      <p className="chat-privacy">История — на время этой вкладки. Сообщения передаются ИИ для ответа.</p>
+      <p className="chat-privacy">История — на время этой вкладки. Ответы формируются на вашем устройстве.</p>
     </dialog>
   );
 }

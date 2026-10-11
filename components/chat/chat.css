@@ -56,3 +56,7 @@
 .chat-escalation button:disabled { opacity: .5; cursor: default; }
 .chat-escalation .chat-escalation-consent { display: flex; align-items: center; gap: 10px; min-height: 44px; }
 .chat-escalation input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; accent-color: #2c3a2e; }
+
+.chat-quick-actions { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px; max-height: 35%; overflow-y: auto; flex-shrink: 1; }
+.chat-quick-actions button { min-height: 44px; max-width: 100%; padding: 8px 12px; font: inherit; font-size: 12px; overflow-wrap: anywhere; border: 1px solid #9a8769; border-radius: 8px; color: #f4eedf; background: #2c3a2e; cursor: pointer; }
+.chat-quick-actions button:disabled { opacity: .5; cursor: default; }
