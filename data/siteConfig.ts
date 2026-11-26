@@ -1,28 +1,14 @@
 export const siteConfig = {
-  title: "За Белым Кроликом — 12 дверей в Новый год | Мария Уханова",
-  description:
-    "Новогодняя онлайн-мистерия Марии Ухановой: игровые практики, медитации, работа с символами и создание собственной карты нового года.",
-  // Set the final HTTPS address before production publication; no invented domain.
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || process.env.CF_PAGES_URL || "",
+  title: "За Белым Кроликом. 12 дверей — онлайн-мистерия | Мария Уханова",
+  description: "Онлайн-мистерия Марии Ухановой в Zoom: 20 или 24 декабря 2026 года, 4 часа, без записи. Путешественник — 5 000 ₽, Исследователь — 11 000 ₽.",
+  siteUrl: "https://rabbit.logos-journey.com",
   dates: [
-    { iso: "2026-12-20T16:00:00", label: "20 декабря 2026", time: "16:00" },
-    { iso: "2026-12-24T18:00:00", label: "24 декабря 2026", time: "18:00" },
+    { iso: "2026-12-20T16:00:00+03:00", endIso: "2026-12-20T20:00:00+03:00", label: "20 декабря 2026", weekday: "воскресенье", time: "16:00–20:00" },
+    { iso: "2026-12-24T17:00:00+03:00", endIso: "2026-12-24T21:00:00+03:00", label: "24 декабря 2026", weekday: "четверг", time: "17:00–21:00" },
   ],
-  // Organizer has not specified a timezone. Never infer it from a visitor's location.
-  timezone: "",
-  recordingAccess: { traveler: "[срок]", explorer: "на более длительный срок" },
+  timezone: "МСК, UTC+3",
+  durationHours: 4,
+  datesProvisional: false,
+  // Claude's technical acceptance and the owner's publication approval: 26 November 2026.
+  checkoutEnabled: true,
 };
-export const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];

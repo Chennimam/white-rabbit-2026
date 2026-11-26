@@ -31,11 +31,11 @@ export function FinalCTA() {
             <p className="final-name">
               За Белым Кроликом.
               <br />
-              <em>12 дверей в Новый год.</em>
+              <em>12 дверей.</em>
             </p>
             <p className="format">Новогодняя онлайн-мистерия</p>
             <DatesList atmospheric />
-            <p className="online">Онлайн</p>
+            <p className="online">Онлайн · Zoom</p>
             <CTA />
           </div>
         </Reveal>

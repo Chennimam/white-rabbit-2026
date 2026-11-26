@@ -48,7 +48,7 @@ UI, sessionStorage, мобильная логика, Escape, focus, keyboard nav
 3. Обновить KNOWLEDGE_REVIEW_HASH после ручной проверки (SHA-256 исходного Markdown).
 4. Выполнить npm run test:chat, lint, build, check:functions; commit/push и новый deploy.
 
-Тест проверяет основные даты, суммы 5500/8000, @Mariucha и hash всей проверенной версии.
+Тест проверяет основные даты, суммы 5000/11000, @Mariucha и hash всей проверенной версии.
 Изменение любой части knowledge явно сигнализирует о необходимости пересмотреть сценарии.
 Файл knowledge сохранён без изменения.
 

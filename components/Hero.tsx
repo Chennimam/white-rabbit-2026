@@ -13,7 +13,7 @@ export function Hero() {
           <a href="#doors">12 дверей</a>
           <a href="#maria">Ведущая</a>
           <a className="nav-join" href="#participation">
-            Участвовать <span aria-hidden="true">↗</span>
+            Участвовать
           </a>
         </nav>
       </header>
@@ -26,7 +26,7 @@ export function Hero() {
               <br />
               <em>Кроликом</em>
             </h1>
-            <p className="hero-subtitle">12 дверей в Новый год</p>
+            <p className="hero-subtitle">12 дверей</p>
           </Reveal>
           <Reveal className="hero-art" delay={0.12}>
             <span className="plate-label" aria-hidden="true">
@@ -47,6 +47,7 @@ export function Hero() {
             <div className="hero-ticket">
               <p className="format">Новогодняя онлайн-мистерия</p>
               <DatesList />
+              <p className="event-facts">4 часа · Zoom · без записи</p>
             </div>
             <CTA />
             <DownLink />

@@ -21,8 +21,9 @@ export function ChatWidget() {
         button.style.removeProperty("--chat-lift");
         return;
       }
-      // Move the launcher away from visible landing CTAs and the payment iframe.
-      const obstacles = [...document.querySelectorAll("main .button, main button, #getcourse-order iframe")]
+      // Keep reading text and CTAs clear. Image corners can accommodate the launcher;
+      // treating an entire gallery image as an obstacle pushed it onto the instructions.
+      const obstacles = [...document.querySelectorAll("main .button, main button:not(.portal-card):not(.thirteenth-visual), main p, main h1, main h2, main h3, main li, main legend, main label, main .portal-question, footer a, footer p, #getcourse-order iframe")]
         .map((element) => element.getBoundingClientRect()).filter((rect) => rect.height > 0);
       button.style.setProperty("--chat-lift", "0px");
       const rect = button.getBoundingClientRect();

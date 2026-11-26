@@ -10,3 +10,13 @@ out/
 .dev.vars*
 .wrangler/
 functions/_generated/
+
+.pnpm-store/
+.preview.log
+
+# Author originals and source names stay outside the public export.
+.local-assets/
+
+# Administrative GetCourse handoff stays local, outside the public website repository.
+handoff/getcourse/
+handoff/getcourse-cabinet-draft.zip

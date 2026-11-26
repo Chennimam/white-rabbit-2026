@@ -1,0 +1,22 @@
+{
+  "status": "authorized-deploying",
+  "officialOrigin": "https://rabbit.logos-journey.com",
+  "publicationAuthorized": true,
+  "salesAuthorized": true,
+  "dns": {
+    "type": "CNAME",
+    "name": "rabbit",
+    "target": "white-rabbit-2026.pages.dev",
+    "provider": "REG.RU",
+    "configured": true
+  },
+  "legacyOrigin": "https://white-rabbit-2026.pages.dev",
+  "redirect": {
+    "status": 301,
+    "preserveQueryString": true,
+    "preservePathSuffix": true,
+    "enabled": false,
+    "includeSubdomains": false
+  },
+  "notes": "Publication and live GetCourse forms approved by owner on 2026-11-26. Existing Pages project white-rabbit-2026, production main. CNAME rabbit saved at REG.RU; apex, www and nameservers unchanged. Verify active HTTPS and deployment before marking published."
+}

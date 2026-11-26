@@ -1,9 +1,15 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { siteConfig } from "@/data/siteConfig";
+import { ArrowDown } from "lucide-react";
 export function DatesList({ className = "", atmospheric = false }: { className?: string; atmospheric?: boolean }) {
   return (
     <p className={`dates-list ${className}`}>
       {atmospheric && <span>Двери открываются дважды. </span>}
-      <span>Выберите свою дату: <time dateTime="2026-12-20">20 декабря</time> или <time dateTime="2026-12-24">24 декабря</time>{atmospheric ? "." : ""}</span>
+      <span className="schedule-choice">Выберите одну дату:</span>
+      {siteConfig.dates.map((date) => <span className="schedule-option" key={date.iso}>
+        <time dateTime={date.iso}>{date.label}, {date.weekday}</time>
+        <span className="schedule-hours">{date.time}</span>
+      </span>)}
+      <span className="schedule-zone">Московское время · {siteConfig.timezone}</span>
     </p>
   );
 }
@@ -19,7 +25,6 @@ export function CTA({
   return (
     <a className={`button ${className}`} href={href}>
       {children}
-      <ArrowUpRight size={17} strokeWidth={1.3} aria-hidden="true" />
     </a>
   );
 }

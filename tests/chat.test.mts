@@ -246,5 +246,5 @@ test("quick send is recorded as an ordinary user message", async () => {
   await flush();
   await act(async () => result.current.send("Сколько стоит участие?"));
   assert.equal(result.current.messages.at(-2)?.content, "Сколько стоит участие?");
-  assert.ok(result.current.messages.at(-1)?.content.includes("5 500"));
+  assert.ok(result.current.messages.at(-1)?.content.includes("5 000"));
 });

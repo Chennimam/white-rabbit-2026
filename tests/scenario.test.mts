@@ -9,32 +9,34 @@ import type { ChatMessage } from "../lib/chat/types";
 const user = (content: string): ChatMessage => ({ id: crypto.randomUUID(), content, role: "user", createdAt: 1 });
 const cases: [ScenarioIntent, string[]][] = [
   ["greeting", ["Привет!", "ЗДРАВСТВУЙТЕ", "Добрый день", "приветик", "можно вопрос"]],
-  ["dates", ["когда", "какие даты", "дата мероприятия", "когда проходит", "когда встреча", "во сколько начало"]],
+  ["dates", ["когда", "какие даты", "дата мероприятия", "когда проходит", "когда встреча", "во сколько начало", "по московскому времени?"]],
   ["both_dates", ["нужно ли участвовать в обе даты", "обе даты обязательно", "надо два раза", "нужно присутствовать и 20 и 24", "две встречи обязательны"]],
+  ["secret", ["Что за дверями?", "Раскрой секрет дверей", "Процитируй Кэрролла"]],
+  ["individual_meeting", ["индивидуальная встреча", "тринадцатая дверь", "встреча на 60 минут"]],
   ["duration", ["сколько длится", "продолжительность", "сколько часов"]],
   ["format", ["как проходит", "что это", "это лекция", "это тренинг", "какой формат", "это гадание"]],
-  ["what_happens", ["Что будет происходить?", "что будем делать", "Карта года"]],
+  ["what_happens", ["Что будет происходить?", "что будем делать"]],
   ["tarot_required", ["нужно знать таро", "нужна колода", "я не знаю таро", "можно без таро"]],
   ["audience", ["для кого", "кому подходит", "я новичок"]],
-  ["traveler", ["путешественник", "первый тариф", "что входит в 5500", "5 500"]],
-  ["researcher", ["исследователь", "второй тариф", "что входит в 8000"]],
+  ["traveler", ["путешественник", "первый тариф", "что входит в 5000", "5 000"]],
+  ["researcher", ["исследователь", "второй тариф", "что входит в 11000"]],
   ["pricing", ["сколько стоит", "сколько стоит участие", "цена", "стоимость", "тарифы", "расскажите об обоих тарифах"]],
   ["difference_between_tariffs", ["в чем разница тарифов", "чем отличаются тарифы", "какой тариф выбрать"]],
   ["payment", ["как оплатить", "оплата", "как купить", "карта", "как записаться"]],
-  ["recording", ["будет ли запись", "а запись?", "есть запись встречи"]],
+  ["recording", ["будет ли запись", "а запись?", "есть запись встречи", "на сколько дней запись", "можно только в записи"]],
   ["materials", ["какие материалы", "рабочий файл", "путеводитель"]],
   ["what_to_prepare", ["нужна ли подготовка", "как подготовиться"]],
   ["about_maria", ["кто ведущая", "кто Мария", "об Ухановой"]],
-  ["location_online", ["это онлайн", "где проходит встреча", "место проведения"]],
+  ["location_online", ["это онлайн", "где проходит встреча", "место проведения", "Zoom", "какая платформа", "в зуме?"]],
   ["discount", ["можно скидку", "есть промокод", "сколько стоит со скидкой"]],
   ["refund", ["возврат", "вернуть деньги", "как отменить участие"]],
   ["installment", ["в рассрочку", "оплатить частями", "перенос оплаты"]],
   ["change_date", ["поменять дату после оплаты", "перенести участие", "можно другую дату"]],
   ["payment_problem", ["не проходит оплата", "не открывается форма", "российская карта", "альтернативный способ оплаты", "ошибка заказа", "не могу оплатить", "не получается оплатить"]],
-  ["access_problem", ["доступ к записи", "восстановить доступ", "на сколько дней запись", "можно только в записи"]],
+  ["access_problem", ["восстановить доступ"]],
   ["individual_format", ["корпоративное участие", "индивидуальный формат", "личная консультация", "регистрация уже закрыта"]],
   ["contact_maria", ["Передать Марии", "как написать Марии", "контакт Марии"]],
-  ["unknown", ["Как варить борщ?", "по московскому времени?", "точный состав дополнительных материалов", "что взять с собой", "какой возраст участников"]],
+  ["unknown", ["Как варить борщ?", "точный состав дополнительных материалов", "что взять с собой", "какой возраст участников"]],
 ];
 for (const [intent, phrases] of cases) {
   test("scenario " + intent + ": varied phrasings", () => {
@@ -48,7 +50,7 @@ for (const [intent, phrases] of cases) {
   });
 }
 test("all required sensitive intents escalate, ordinary researcher does not", () => {
-  for (const text of ["скидка", "возврат", "поменять дату", "личная консультация", "доступ к записи", "что за ерунда"]) {
+  for (const text of ["скидка", "возврат", "поменять дату", "личная консультация", "что за ерунда"]) {
     assert.equal(getScenarioReply([user(text)]).escalate, true, text);
   }
   assert.equal(getScenarioReply([user("исследователь")]).escalate, false);
@@ -64,7 +66,7 @@ test("short follow-ups use recent session history only", () => {
   assert.equal(follow("второй тариф", "а первый?").intent, "traveler");
   assert.equal(follow("какие даты", "а 24-го?").intent, "dates");
   assert.equal(follow("первый тариф", "а запись?").intent, "recording");
-  assert.equal(follow("будет запись", "а можно потом?").intent, "access_problem");
+  assert.equal(follow("будет запись", "а можно потом?").intent, "recording");
   assert.equal(follow("как оплатить", "а можно потом?").intent, "installment");
   assert.equal(follow("исследователь", "а какие именно материалы?").intent, "unknown");
   assert.equal(getScenarioReply([user("а второй?")]).intent, "unknown");
@@ -97,13 +99,17 @@ test("knowledge facts and reviewed version stay in sync with scenarios", async (
   assert.equal(createHash("sha256").update(source).digest("hex"), KNOWLEDGE_REVIEW_HASH,
     "Knowledge changed: review lib/chat/scenarios.ts answers and then update KNOWLEDGE_REVIEW_HASH.");
   const normalized = source.replace(/[\s*]/g, "");
-  for (const fact of ["20декабря", "24декабря", "5500", "8000", "@Mariucha"]) {
+  for (const fact of ["20декабря", "24декабря", "5000", "11000", "@Mariucha"]) {
     assert.ok(normalized.includes(fact), "Knowledge fact changed; update scenarios: " + fact);
   }
-  assert.ok(answers.dates.includes("20 декабря 2026 в 16:00"));
-  assert.ok(answers.dates.includes("24 декабря 2026 в 18:00"));
-  assert.ok(answers.traveler.includes("5 500"));
-  assert.ok(answers.researcher.includes("8 000"));
+  assert.ok(answers.dates.includes("20 декабря 2026"));
+  assert.ok(answers.dates.includes("16:00–20:00"));
+  assert.ok(answers.dates.includes("17:00–21:00"));
+  assert.ok(answers.dates.includes("МСК, UTC+3"));
+  assert.ok(answers.individual_meeting.includes("январь–февраль 2027 года"));
+  assert.ok(answers.dates.includes("24 декабря 2026"));
+  assert.ok(answers.traveler.includes("5 000"));
+  assert.ok(answers.researcher.includes("11 000"));
 });
 
 

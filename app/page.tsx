@@ -9,6 +9,8 @@ import { Pricing } from "@/components/Pricing";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { HereAndNow } from "@/components/HereAndNow";
+import { serializeEventData } from "@/lib/seo/eventData";
 export default function Home() {
   return (
     <>
@@ -19,10 +21,12 @@ export default function Home() {
         <TwelveDoors />
         <RabbitHole />
         <Dates />
+        <HereAndNow />
         <AboutMaria />
         <Pricing />
         <FinalCTA />
       </main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeEventData() }} />
       <Footer />
       <ChatWidget />
     </>

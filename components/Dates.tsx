@@ -26,10 +26,11 @@ export function Dates() {
           <em>за Белым Кроликом?</em>
         </h2>
         <DatesList atmospheric />
+        <p className="schedule-note">Продолжительность — 4 часа. Участник выбирает одну из двух дат.</p>
         <CTA href="#order" className="dates-cta">Пойти</CTA>
         <p className="online">
           <span aria-hidden="true" />
-          Онлайн
+          Онлайн · Zoom
         </p>
       </Reveal>
       </div>

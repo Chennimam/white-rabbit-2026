@@ -7,16 +7,20 @@ import "@fontsource/manrope/400.css";
 import "@fontsource/manrope/500.css";
 import { siteConfig } from "@/data/siteConfig";
 import "./globals.css";
+import "../components/doors/door-effects.css";
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
-  ...(siteConfig.siteUrl
-    ? {
-        metadataBase: new URL(siteConfig.siteUrl),
-        alternates: { canonical: "/" },
-      }
-    : {}),
+  metadataBase: new URL(siteConfig.siteUrl),
+  alternates: { canonical: "/" },
+  applicationName: "За Белым Кроликом. 12 дверей",
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
+  },
   openGraph: {
+    url: `${siteConfig.siteUrl}/`,
+    siteName: "За Белым Кроликом. 12 дверей",
     title: siteConfig.title,
     description: siteConfig.description,
     locale: "ru_RU",
@@ -26,7 +30,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "За Белым Кроликом — 12 дверей в Новый год",
+        alt: "За Белым Кроликом. 12 дверей — Мария Уханова",
       },
     ],
   },

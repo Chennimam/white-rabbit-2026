@@ -4,8 +4,14 @@ async function check(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const path = new URL(entry.name + (entry.isDirectory() ? "/" : ""), dir);
     if (entry.isDirectory()) await check(path);
-    else if (/\.(js|html|json|txt)$/.test(entry.name)) {
+    else if (/\.(js|html|json|txt|css)$/.test(entry.name)) {
       const content = await readFile(path, "utf8");
+      // Only the approved consultation window may mention this year/month range.
+      // Door-to-calendar associations remain forbidden.
+      const storyContent = content.replace(/январь–февраль 2027 года/giu, "");
+      if (/2027|month-door|month-caption|январ[ьяь]|феврал[ьяь]|март[ае]?\b|апрел[ьяь]|июн[ьяь]|июл[ьяь]|август|сентябр|октябр|ноябр|будущего месяца|будущих месяцев|карта года/iu.test(storyContent)) {
+        throw new Error("Unapproved story data found in " + path.pathname);
+      }
       if (forbidden.some((text) => content.includes(text))) throw new Error("Server-only data found in " + path.pathname);
     }
   }

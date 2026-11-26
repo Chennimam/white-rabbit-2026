@@ -1,4 +1,5 @@
 import { socialLinks } from "@/data/socialLinks";
+import { legalLinks } from "@/data/legalLinks";
 
 export function Footer() {
   const metaLinks = socialLinks.filter((link) =>
@@ -25,6 +26,9 @@ export function Footer() {
           </div>
         </div>
       </div>
+      <nav className="footer-legal" aria-label="Юридические документы">
+        {legalLinks.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>)}
+      </nav>
       <div className="footer-service">
         <a className="credits-link" href="/image-credits.html" target="_blank" rel="noopener noreferrer">
           Источники изображений

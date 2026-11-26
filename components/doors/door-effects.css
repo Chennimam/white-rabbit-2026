@@ -1,0 +1,124 @@
+/* Separate, masked light and motion layers. Approved image files stay intact. */
+.door-effects, .effect-surface, .effect-light, .effect-detail, .effect-particles { position: absolute; inset: 0; pointer-events: none; }
+.door-effects { opacity: 0; transition: opacity .16s ease-out; }
+.door-effect-filters { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.effect-surface, .effect-detail, .effect-particles i, .effect-detail i { display: none; }
+.effect-light { mix-blend-mode: screen; animation: door-breathe 3.8s ease-in-out infinite alternate; }
+.effect-surface { background-size: 100% 100%; background-repeat: no-repeat; }
+.portal-card:is(.is-awake, :focus-visible) .door-effects { opacity: 1; }
+.portal-card:is(.is-awake, :focus-visible) .effect-surface { background-image: var(--door-image); }
+.door-effects *, .door-effects *::before, .door-effects *::after { animation-play-state: paused !important; }
+.portal-card:is(.is-awake, :focus-visible) .door-effects *, .portal-card:is(.is-awake, :focus-visible) .door-effects *::before, .portal-card:is(.is-awake, :focus-visible) .door-effects *::after { animation-play-state: running !important; }
+.portal-question { transition-duration: .35s; }
+
+/* A: two visibly moving brass hands, anchored to the existing instrument. */
+.fx-a .effect-light { background: radial-gradient(ellipse 8% 42% at 65% 55%, #b6d9ff99, transparent), radial-gradient(ellipse 13% 10% at 49.5% 32.9%, #e2bd6d66, transparent); }
+.fx-a .effect-detail { display: block; }
+.fx-a .effect-detail i { display: block; position: absolute; left: 49.5%; top: 32.9%; width: 9%; height: 2px; border-radius: 100%; transform-origin: left center; background: #f5d6a0; box-shadow: 0 0 5px #e6caa4b3; animation: door-hand 9s linear infinite; }
+.fx-a .effect-detail i + i { width: 6%; height: 2.5px; animation-duration: 23s; animation-delay: -7s; }
+
+/* K: near and far stars travel independently through the opening and painted sky. */
+.fx-k .effect-light { background: radial-gradient(ellipse 10% 31% at 63% 52%, #ffd782b3, transparent); }
+.fx-k .effect-particles i { display: block; position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff1c5; box-shadow: 0 0 8px 1px #fbe6a6aa; animation: door-depth 4.8s ease-in-out infinite alternate; }
+.fx-k .effect-particles i:nth-child(3n) { width: 2px; height: 2px; animation-duration: 7s; }
+.fx-k .effect-particles i:nth-child(1) { left: 61%; top: 30%; animation-delay: -1s; }
+.fx-k .effect-particles i:nth-child(2) { left: 65%; top: 42%; animation-delay: -3s; }
+.fx-k .effect-particles i:nth-child(3) { left: 60%; top: 55%; animation-delay: -4s; }
+.fx-k .effect-particles i:nth-child(4) { left: 66%; top: 67%; animation-delay: -2s; }
+.fx-k .effect-particles i:nth-child(5) { left: 62%; top: 76%; animation-delay: -5s; }
+.fx-k .effect-particles i:nth-child(6) { left: 58%; top: 38%; animation-delay: -2.5s; }
+.fx-k .effect-particles i:nth-child(7) { left: 38%; top: 22%; animation-delay: -3.8s; }
+.fx-k .effect-particles i:nth-child(8) { left: 53%; top: 16%; animation-delay: -.8s; }
+.fx-k .effect-particles i:nth-child(9) { left: 72%; top: 27%; animation-delay: -4.3s; }
+.fx-k .effect-particles i:nth-child(10) { left: 35%; top: 49%; animation-delay: -1.8s; }
+.fx-k .effect-particles i:nth-child(11) { left: 43%; top: 64%; animation-delay: -3.2s; }
+.fx-k .effect-particles i:nth-child(12) { left: 68%; top: 84%; animation-delay: -4.5s; }
+
+/* J: the original goldwork catches light; masonry remains untouched. */
+.fx-j .effect-surface { display: block; mask-image: radial-gradient(ellipse 23% 37% at 51% 52%, #000 35%, transparent 90%); mix-blend-mode: screen; filter: sepia(.65) saturate(1.5) brightness(1.6); animation: door-goldwork 3.2s ease-in-out infinite alternate; }
+.fx-j .effect-light { background: radial-gradient(ellipse 21% 29% at 51% 51%, #f0b95188, transparent); }
+.fx-j .effect-detail { display: block; background: radial-gradient(ellipse 8% 8% at 51% 45%, #ffebadc9, transparent 85%); mix-blend-mode: screen; animation: door-symbol 2.8s ease-in-out infinite alternate; }
+
+/* C: moving refraction and a travelling wave, masked inside the mirror. */
+.fx-c .effect-surface { display: block; mask-image: radial-gradient(ellipse 23% 33% at 53% 53%, #000 65%, transparent 100%); opacity: .85; filter: url(#door-mirror-ripple); animation: door-refraction 3.6s ease-in-out infinite alternate; }
+.fx-c .effect-light { background: repeating-radial-gradient(ellipse at 51% 55%, transparent 0 9%, #cdfcff70 10%, transparent 12% 20%); mask-image: radial-gradient(ellipse 25% 35% at 53% 54%, #000 35%, transparent 95%); animation: door-mirror-light 3.8s ease-in-out infinite; }
+
+/* E: displaced water and moving horizontal reflections below the fixed doorway. */
+.fx-e .effect-surface { display: block; mask-image: linear-gradient(transparent 63%, #000 76%); opacity: .85; filter: url(#door-water-ripple); animation: door-water 3s ease-in-out infinite alternate; }
+.fx-e .effect-light { background: radial-gradient(ellipse 13% 30% at 75% 76%, #fff1b5a6, transparent), radial-gradient(ellipse 10% 20% at 39% 76%, #fff0be77, transparent); }
+.fx-e .effect-detail { display: block; inset: 60% 0 0; background: repeating-linear-gradient(0deg, transparent 0 10px, #ffeac18c 12px, transparent 15px 27px); mask-image: linear-gradient(transparent, #000), radial-gradient(ellipse 29% 100% at 61% 60%, #000, transparent 85%); mask-composite: intersect; mix-blend-mode: screen; animation: door-wave-light 3.4s linear infinite; }
+
+/* G: a luminous ice star with a drifting, layered snowfall. */
+.fx-g .effect-light { background: radial-gradient(ellipse 22% 24% at 50% 48%, #c4edffb3, transparent); }
+.fx-g .effect-detail { display: block; background: radial-gradient(ellipse 7% 8% at 50% 48%, #f1fcfff2, transparent 90%); mix-blend-mode: screen; animation: door-symbol 2.8s ease-in-out infinite alternate; }
+.fx-g .effect-particles i { display: block; position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #f3fbff; box-shadow: 0 0 4px #caedff; animation: door-snow 5.8s linear infinite; }
+.fx-g .effect-particles i:nth-child(3n) { width: 4px; height: 4px; animation-duration: 8s; }
+.fx-g .effect-particles i:nth-child(1) { left: 21%; top: 8%; animation-delay: -2s; }
+.fx-g .effect-particles i:nth-child(2) { left: 73%; top: 12%; animation-delay: -4s; }
+.fx-g .effect-particles i:nth-child(3) { left: 43%; top: 16%; animation-delay: -6s; }
+.fx-g .effect-particles i:nth-child(4) { left: 83%; top: 26%; animation-delay: -1s; }
+.fx-g .effect-particles i:nth-child(5) { left: 34%; top: 3%; animation-delay: -3s; }
+.fx-g .effect-particles i:nth-child(6) { left: 59%; top: 6%; animation-delay: -5s; }
+.fx-g .effect-particles i:nth-child(7) { left: 13%; top: 25%; animation-delay: -4.5s; }
+.fx-g .effect-particles i:nth-child(8) { left: 91%; top: 10%; animation-delay: -2.5s; }
+.fx-g .effect-particles i:nth-child(9) { left: 48%; top: 30%; animation-delay: -7s; }
+.fx-g .effect-particles i:nth-child(10) { left: 66%; top: 22%; animation-delay: -.5s; }
+.fx-g .effect-particles i:nth-child(11) { left: 26%; top: 32%; animation-delay: -3.5s; }
+.fx-g .effect-particles i:nth-child(12) { left: 77%; top: 3%; animation-delay: -5.5s; }
+
+/* D: several rose petals travel at different depths; the upper leaves sway. */
+.fx-d .effect-surface { display: block; mask-image: linear-gradient(#000, transparent 38%); opacity: .65; transform-origin: 50% 12%; animation: door-leaves 4s ease-in-out infinite alternate; }
+.fx-d .effect-light { background: radial-gradient(ellipse 32% 17% at 50% 14%, #eddf9877, transparent); }
+.fx-d .effect-particles i { display: block; position: absolute; width: 9px; height: 13px; border-radius: 80% 15% 70% 30%; background: linear-gradient(130deg, #f2bac2, #a73652); box-shadow: inset 1px 0 2px #f9d6d6aa; animation: door-petal 6s ease-in-out infinite; }
+.fx-d .effect-particles i:nth-child(n+7) { display: none; }
+.fx-d .effect-particles i:nth-child(1) { left: 79%; top: 24%; animation-delay: -1s; }
+.fx-d .effect-particles i:nth-child(2) { left: 15%; top: 38%; animation-delay: -3s; animation-duration: 7s; }
+.fx-d .effect-particles i:nth-child(3) { left: 66%; top: 10%; animation-delay: -4s; width: 7px; height: 10px; }
+.fx-d .effect-particles i:nth-child(4) { left: 25%; top: 15%; animation-delay: -5s; animation-duration: 8s; }
+.fx-d .effect-particles i:nth-child(5) { left: 87%; top: 51%; animation-delay: -2s; width: 7px; height: 10px; }
+.fx-d .effect-particles i:nth-child(6) { left: 39%; top: 4%; animation-delay: -3.5s; }
+
+/* B: a clearly flickering lantern, independent of the stationary door. */
+.fx-b .effect-light { background: radial-gradient(ellipse 12% 14% at 15% 32%, #ffc66bc9, transparent 85%); animation: door-lantern 2.7s ease-in-out infinite; }
+.fx-b .effect-detail { display: block; background: radial-gradient(ellipse 3% 4% at 15% 32%, #fff1c0ed, transparent); mix-blend-mode: screen; animation: door-lantern 2.7s ease-in-out infinite reverse; }
+
+/* I: broad sun flecks cross the foliage, with warm window light. */
+.fx-i .effect-light { background: radial-gradient(ellipse 19% 11% at 30% 25%, #ffe6a0b3, transparent), radial-gradient(ellipse 16% 20% at 72% 37%, #ffdf98a6, transparent); animation: door-sun 4.5s ease-in-out infinite alternate; }
+.fx-i .effect-detail { display: block; background: radial-gradient(ellipse 8% 10% at 18% 50%, #ffce85a6, transparent), radial-gradient(ellipse 7% 9% at 76% 52%, #ffce8599, transparent); mix-blend-mode: screen; animation: door-symbol 3.6s ease-in-out infinite alternate; }
+
+/* F: warm red light pulses around the vessel and existing symbols. */
+.fx-f .effect-light { background: radial-gradient(ellipse 18% 23% at 51% 47%, #e96035b3, transparent); animation-duration: 2.8s; }
+.fx-f .effect-detail { display: block; background: radial-gradient(circle at 38% 34%, #f2ce79b3, transparent 5%), radial-gradient(circle at 63% 40%, #f2ce7999, transparent 5%), radial-gradient(circle at 49% 56%, #ffd58da6, transparent 6%); mix-blend-mode: screen; animation: door-symbol 3.2s ease-in-out infinite alternate; }
+
+/* H: refraction confined to the curtain, with a moving theatrical spotlight. */
+.fx-h .effect-surface { display: block; mask-image: radial-gradient(ellipse 9% 23% at 66% 56%, #000 60%, transparent); opacity: .85; transform-origin: 65% 31%; animation: door-curtain 3.8s ease-in-out infinite alternate; }
+.fx-h .effect-light { background: radial-gradient(ellipse 15% 29% at 65% 57%, #edaa62b3, transparent), radial-gradient(ellipse 8% 10% at 12% 25%, #ffcc7e99, transparent); animation: door-stage-light 4.2s ease-in-out infinite alternate; }
+
+/* L: brightening light follows the opening, leaving the arch readable. */
+.fx-l .effect-surface { display: block; mask-image: radial-gradient(ellipse 24% 39% at 50% 52%, #000 45%, transparent); mix-blend-mode: screen; filter: brightness(1.3) sepia(.2); animation: door-goldwork 3.8s ease-in-out infinite alternate; }
+.fx-l .effect-light { background: radial-gradient(ellipse 28% 40% at 50% 46%, #ffdf8f99, transparent); animation-duration: 3.8s; }
+.fx-l .effect-detail { display: block; background: radial-gradient(ellipse 13% 20% at 50% 64%, #fff2c3b3, transparent); mix-blend-mode: screen; filter: blur(3px); animation: door-symbol 3.8s ease-in-out infinite alternate; }
+
+@keyframes door-breathe { from { opacity: .55; } to { opacity: 1; } }
+@keyframes door-symbol { from { opacity: .4; } to { opacity: .95; } }
+@keyframes door-goldwork { from { opacity: .18; } to { opacity: .58; } }
+@keyframes door-hand { from { transform: rotate(-80deg); } to { transform: rotate(280deg); } }
+@keyframes door-depth { from { transform: translate3d(-5px, 18px, 0) scale(.7); opacity: .4; } to { transform: translate3d(9px, -23px, 0) scale(1.3); opacity: 1; } }
+@keyframes door-refraction { from { transform: skewX(-1deg) translate(-3px, 2px); } to { transform: skewX(1deg) translate(3px, -2px); } }
+@keyframes door-mirror-light { 0% { background-size: 85% 85%; background-position: 50% 50%; opacity: .3; } 55% { opacity: .85; } 100% { background-size: 125% 125%; background-position: 50% 50%; opacity: .3; } }
+@keyframes door-water { from { transform: translate(-4px, -1px) skewX(-.6deg); } to { transform: translate(4px, 2px) skewX(.6deg); } }
+@keyframes door-wave-light { from { transform: translateY(-13px); opacity: .45; } to { transform: translateY(14px); opacity: .8; } }
+@keyframes door-snow { 0% { transform: translate(8px,-15px); opacity: 0; } 12% { opacity: .95; } 80% { opacity: .8; } 100% { transform: translate(-22px,210px); opacity: 0; } }
+@keyframes door-leaves { from { transform: translateX(-2px) rotate(-.35deg); } to { transform: translateX(2px) rotate(.35deg); } }
+@keyframes door-petal { 0% { transform: translate(0,-10px) rotate(-25deg); opacity: 0; } 12% { opacity: .95; } 50% { transform: translate(-17px,78px) rotate(45deg); opacity: .85; } 88% { opacity: .65; } 100% { transform: translate(18px,180px) rotate(130deg); opacity: 0; } }
+@keyframes door-lantern { 0%, 100% { opacity: .65; } 24% { opacity: 1; } 40% { opacity: .55; } 62% { opacity: .9; } 80% { opacity: .6; } }
+@keyframes door-sun { from { transform: translate(-13px,-9px); opacity: .5; } to { transform: translate(18px,13px); opacity: 1; } }
+@keyframes door-curtain { from { transform: skewX(-1.5deg) translateX(-3px); } to { transform: skewX(1.5deg) translateX(3px); } }
+@keyframes door-stage-light { from { transform: translateX(-5px); opacity: .5; } to { transform: translateX(9px); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .door-effects, .door-effects *, .door-effects *::before, .door-effects *::after { animation: none !important; transition: none !important; transform: none !important; }
+  .door-effects .effect-surface, .door-effects .effect-particles, .fx-a .effect-detail { display: none; }
+  .door-effects .effect-light, .door-effects .effect-detail { opacity: .55; }
+  .portal-question { transition: none; }
+}

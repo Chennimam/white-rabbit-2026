@@ -1,7 +1,7 @@
 import { MAX_HISTORY_MESSAGES, MAX_MESSAGE_LENGTH } from "./types";
 import type { ChatHistoryStore, ChatMessage } from "./types";
 
-export const HISTORY_KEY = "white-rabbit:chat:session:v2";
+export const HISTORY_KEY = "white-rabbit:chat:session:v6";
 
 export function parseHistory(raw: string | null): ChatMessage[] {
   if (!raw || raw.length > 2_000_000) return [];
@@ -30,6 +30,10 @@ export const sessionHistoryStore: ChatHistoryStore = {
   async load() {
     // Remove only the legacy demo history; never migrate it into a new session.
     try { window.localStorage.removeItem("white-rabbit:chat:v1"); } catch { /* Storage may be disabled. */ }
+    // Discard replies from the previous event terms on upgrade.
+    window.sessionStorage.removeItem("white-rabbit:chat:session:v2");
+    window.sessionStorage.removeItem("white-rabbit:chat:session:v3");
+    window.sessionStorage.removeItem("white-rabbit:chat:session:v4");
     return parseHistory(window.sessionStorage.getItem(HISTORY_KEY));
   },
   async save(messages) {
